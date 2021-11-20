@@ -9,6 +9,13 @@ class User(db.Model):
     coins = db.Column(db.Integer, default=100, nullable=False)
     level = db.Column(db.String(100), default='padavan', nullable=False)
 
+    items = db.relationship('Item', backref='user', lazy=True)
+    provider_contracts = db.relationship('Contract', backref='provider',
+        foreign_keys='Contract.provider_id', lazy=True)
+    consumer_contracts = db.relationship('Contract', backref='consumer',
+        foreign_keys='Contract.consumer_id', lazy=True)
+    outgoing_requests = db.relationship('Request', backref='consumer', lazy=True)
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -18,7 +25,7 @@ class Item(db.Model):
     date_added = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text(), default='', nullable=False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     state = db.Column(db.String(100), default='', nullable=False)
     availible_since = db.Column(db.DateTime, default=db.func.now())
     max_rent_length = db.Column(db.Integer, default=90, nullable=False)
@@ -30,15 +37,18 @@ class Item(db.Model):
     checked_at_return = db.Column(db.Text, default='', nullable=False)
     image_url = db.Column(db.String(200), default='', nullable=False)
 
+    contracts = db.relationship('Contract', backref='item', lazy=True)
+    requests = db.relationship('Request', backref='item', lazy=True)
+
     def __repr__(self):
         return '<Item {}>'.format(self.name)
 
 
 class Contract(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    provider_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    consumer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
+    provider_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    consumer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     start_date = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     end_date = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     status = db.Column(db.String(100), default='initial', nullable=False)
@@ -51,9 +61,9 @@ class Contract(db.Model):
 
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     # provider_id is related item.owner_id
-    consumer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    consumer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date_added = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     text = db.Column(db.Text, default='', nullable=False)
 
