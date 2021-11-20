@@ -32,6 +32,28 @@ def confirm_request():
     return jsonify({'result': 'OK'})
 
 
+@app.route('/item_requests/<request_id>')
+def get_item_request(request_id):
+    r = {
+        'request_id': 1,
+        'provider_id': 1,
+        'consumer_id': 2,
+        'text': 'I wanted to try skateboarding!',
+    }
+    return jsonify(r)
+
+
+@app.route('/item_requests/<uid>')
+def item_requests(uid):
+    r = [{
+        'request_id': 1,
+        'provider_id': uid,
+        'consumer_id': 2,
+        'text': 'I wanted to try skateboarding!',
+    }]
+    return jsonify(r)
+
+
 @app.route('/request_item', methods=["POST"], strict_slashes=False)
 def request_item():
     uid = request.json['user_id']
