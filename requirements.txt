@@ -14,6 +14,7 @@ Mako==1.1.6
 MarkupSafe==2.0.1
 marshmallow==3.14.1
 marshmallow-sqlalchemy==0.26.1
+git+https://github.com/File5/pyledger.git#egg=pyledger
 six==1.16.0
 SQLAlchemy==1.4.27
 Werkzeug==2.0.2
