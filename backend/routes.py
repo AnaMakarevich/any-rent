@@ -70,7 +70,7 @@ def request_item():
     return jsonify(response)
 
 
-@app.route('/items/<items_id>', defaults={"uid": None})
+@app.route('/items/<item_id>', defaults={"uid": None})
 @app.route('/items/<item_id>/<uid>')
 def item(item_id, uid):
     dummy_item = {
