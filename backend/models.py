@@ -2,7 +2,6 @@ from app import db, ma
 
 
 class User(db.Model):
-    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), index=True, unique=True)
     first_name = db.Column(db.String(100), nullable=False)
@@ -15,7 +14,6 @@ class User(db.Model):
 
 
 class Item(db.Model):
-    __tablename__ = 'items'
     id = db.Column(db.Integer, primary_key=True)
     date_added = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     name = db.Column(db.String(100), nullable=False)
@@ -37,7 +35,6 @@ class Item(db.Model):
 
 
 class Contract(db.Model):
-    __tablename__ = 'contracts'
     id = db.Column(db.Integer, primary_key=True)
     provider_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     consumer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
