@@ -3,10 +3,13 @@ from app import db, ma
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), index=True, unique=True)
+    coins = db.Column(db.Integer, default=100, nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
-    coins = db.Column(db.Integer, default=100, nullable=False)
+    successful_returns = db.Column(db.Integer, default=0, nullable=False)
+    num_current_contracts_consumer = db.Column(db.Integer, default=0, nullable=False)
+    num_current_contracts_provider = db.Column(db.Integer, default=0, nullable=False)
+    complaints = db.Column(db.Integer, default=0, nullable=False)
     level = db.Column(db.String(100), default='padavan', nullable=False)
 
     items = db.relationship('Item', backref='owner', lazy=True)
@@ -14,10 +17,13 @@ class User(db.Model):
         foreign_keys='Contract.provider_id', lazy=True)
     consumer_contracts = db.relationship('Contract', backref='consumer',
         foreign_keys='Contract.consumer_id', lazy=True)
-    outgoing_requests = db.relationship('Request', backref='consumer', lazy=True)
+    incoming_requests = db.relationship('Request', backref='provider',
+        foreign_keys='Request.provider_id', lazy=True)
+    outgoing_requests = db.relationship('Request', backref='consumer',
+        foreign_keys='Request.consumer_id', lazy=True)
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User {}>'.format(self.id)
 
 
 class Item(db.Model):
@@ -33,9 +39,11 @@ class Item(db.Model):
     coins = db.Column(db.Integer, default=0, nullable=False)
     lat = db.Column(db.Float, nullable=True)
     lon = db.Column(db.Float, nullable=True)
+    fragile = db.Column(db.Boolean, default=False, nullable=False)
     required_post_actions = db.Column(db.Text, default='', nullable=False)
     checked_at_return = db.Column(db.Text, default='', nullable=False)
-    image_url = db.Column(db.String(200), default='', nullable=False)
+    status = db.Column(db.String(100), default='', nullable=False)
+    picture_before = db.Column(db.String(200), default='', nullable=False)
 
     contracts = db.relationship('Contract', backref='item', lazy=True)
     requests = db.relationship('Request', backref='item', lazy=True)
@@ -52,8 +60,10 @@ class Contract(db.Model):
     start_date = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     end_date = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     status = db.Column(db.String(100), default='initial', nullable=False)
-    image_after_url = db.Column(db.String(200), nullable=True)
+    picture_after = db.Column(db.String(200), nullable=True)
     closed_on = db.Column(db.DateTime, nullable=True)
+    provider_confirmed_return = db.Column(db.Boolean, default=False, nullable=False)
+    consumer_confirmed_return = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '<Contract {}>'.format(self.id)
@@ -62,7 +72,7 @@ class Contract(db.Model):
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
-    # provider_id is related item.owner_id
+    provider_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     consumer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date_added = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     text = db.Column(db.Text, default='', nullable=False)

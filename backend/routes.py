@@ -35,7 +35,7 @@ def confirm_request():
 @app.route('/item_requests/<request_id>')
 def get_item_request(request_id):
     r = {
-        'request_id': 1,
+        'id': request_id,
         'item_id': 1,
         'provider_id': 1,
         'consumer_id': 2,
@@ -47,7 +47,7 @@ def get_item_request(request_id):
 @app.route('/item_requests/<uid>')
 def item_requests(uid):
     r = [{
-        'request_id': 1,
+        'id': 1,
         'item_id': 1,
         'provider_id': uid,
         'consumer_id': 2,
@@ -78,17 +78,15 @@ def item(item_id, uid):
         "date_added": "2021-10-10T00:00:00",
         "name": "Skateboard",
         "description": "A skateboard that I'm not using since I started to work at a big corporation.",
-        "owner": 1,
+        "owner_id": 1,
         "state": "Heavily abused",
         "available_since": "2021-12-12",
         "max_rent_length": 90,
         "kaution": 200,
         "coins": 30,
-        "location": {
-            "lat": 48.1351253,
-            "lon": 11.5819806
-        },
-        "Fragile": False,
+        "lat": 48.1351253,
+        "lon": 11.5819806,
+        "fragile": False,
         "required_post_actions": "Please clean it after you use it",
         "checked_at_return": "Wheels stability",
         "status": "available",
@@ -100,21 +98,20 @@ def item(item_id, uid):
     return jsonify(dummy_item)
 
 
-@app.route('/add_item', methods=["POST"], strict_slashes=False)
-def add_item():
+@app.route('/add_item/<uid>', methods=["POST"], strict_slashes=False)
+def add_item(uid):
     name = request.json['name']
     item = {
         "name": name,
         "description": request.json["description"],
+        "owner_id": uid,
         "state": request.json["state"],
         "available_since": request.json["available_since"],
         "max_rent_length": request.json["max_rent_length"],
         "kaution": request.json["kaution"],
-        "location": {
-            "lat": 48.1351253,
-            "lon": 11.5819806
-        },
-        "Fragile": request.json["Fragile"],
+        "lat": 48.1351253,
+        "lon": 11.5819806,
+        "fragile": request.json["fragile"],
         "required_post_actions": request.json["required_post_actions"],
         "checked_at_return": request.json["checked_at_return"],
         "status": request.json["status"],
@@ -161,9 +158,9 @@ def running_provider_contracts(uid):
     """Contract items for the user with this id"""
     contracts = [{
         "contract_id": 1,
-        "provider": uid,
-        "consumer": 2,
-        "item": 1,
+        "provider_id": uid,
+        "consumer_id": 2,
+        "item_id": 1,
         "start_date": "2021-12-12",
         "end_date": "2021-12-20",
         "status": "active",
@@ -180,9 +177,9 @@ def running_consumer_contracts(uid):
     """Contract items for the user with this id"""
     contracts = [{
         "contract_id": 1,
-        "provider": 1,
-        "consumer": uid,
-        "item": 1,
+        "provider_id": 1,
+        "consumer_id": uid,
+        "item_id": 1,
         "start_date": "2021-12-12",
         "end_date": "2021-12-20",
         "status": "active"
@@ -198,17 +195,15 @@ def available_items():
         "date_added": "2021-10-10T00:00:00",
         "name": "Skateboard",
         "description": "A skateboard that I'm not using since I started to work at a big corporation.",
-        "owner": 1,
+        "owner_id": 1,
         "state": "Heavily abused",
         "available_since": "2021-12-12",
         "max_rent_length": 90,
         "kaution": 200,
         "coins": 30,
-        "location": {
-            "lat": 48.1351253,
-            "lon": 11.5819806
-        },
-        "Fragile": False,
+        "lat": 48.1351253,
+        "lon": 11.5819806,
+        "fragile": False,
         "required_post_actions": "Please clean it after you use it",
         "checked_at_return": "Wheels stability",
         "status": "available",
@@ -219,17 +214,15 @@ def available_items():
             "date_added": "2021-10-10T00:00:00",
             "name": "Travel suitcase",
             "description": "A huge 100L travel suitcase that I only use once per  year",
-            "owner": 1,
+            "owner_id": 1,
             "state": "Almost new",
             "available_since": "2021-12-12",
             "max_rent_length": 60,
             "kaution": 200,
             "coins": 60,
-            "location": {
-                "lat": 48.1351253,
-                "lon": 11.5819806
-            },
-            "Fragile": False,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": False,
             "required_post_actions": "Please clean it after you use it",
             "checked_at_return": "Wheels stability, cleanness, visual damage",
             "status": "available",
@@ -240,17 +233,15 @@ def available_items():
             "date_added": "2021-10-10T00:00:00",
             "name": "Electric Piano",
             "description": "A piano I'm not using because I'm dead inside.",
-            "owner": 2,
+            "owner_id": 2,
             "state": "Almost new",
             "available_since": "2021-12-12",
             "max_rent_length": 180,
             "kaution": 200,
             "coins": 30,
-            "location": {
-                "lat": 48.1351253,
-                "lon": 11.5819806
-            },
-            "Fragile": True,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": True,
             "required_post_actions": "None",
             "checked_at_return": "Keys stability, visual damage such as scratches",
             "status": "available",
@@ -269,17 +260,15 @@ def owned_items(uid):
             "date_added": "2021-10-10T00:00:00",
             "name": "Skateboard",
             "description": "A skateboard that I'm not using since I started to work at a big corporation.",
-            "owner": uid,
+            "owner_id": uid,
             "state": "Heavily abused",
             "available_since": "2021-12-12",
             "max_rent_length": 90,
             "kaution": 200,
             "coins": 30,
-            "location": {
-                "lat": 48.1351253,
-                "lon": 11.5819806
-            },
-            "Fragile": False,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": False,
             "required_post_actions": "Please clean it after you use it",
             "checked_at_return": "Wheels stability",
             "status": "available",
@@ -290,17 +279,15 @@ def owned_items(uid):
             "date_added": "2021-10-10T00:00:00",
             "name": "Travel suitcase",
             "description": "A huge 100L travel suitcase that I only use once per  year",
-            "owner": uid,
+            "owner_id": uid,
             "state": "Almost new",
             "available_since": "2021-12-12",
             "max_rent_length": 60,
             "kaution": 200,
             "coins": 60,
-            "location": {
-                "lat": 48.1351253,
-                "lon": 11.5819806
-            },
-            "Fragile": False,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": False,
             "required_post_actions": "Please clean it after you use it",
             "checked_at_return": "Wheels stability, cleanness, visual damage",
             "status": "available",
@@ -319,17 +306,15 @@ def borrowed_items(uid):
             "date_added": "2021-10-10T00:00:00",
             "name": "Crotches",
             "description": "A pair of crotches I had to buy when I broke a leg.",
-            "owner": uid,
+            "owner_id": uid,
             "state": "Good condition",
             "available_since": "2021-12-12",
             "max_rent_length": None,  # None means for as long as needed
             "kaution": 0,
             "coins": 30,
-            "location": {
-                "lat": 48.1351253,
-                "lon": 11.5819806
-            },
-            "Fragile": False,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": False,
             "required_post_actions": "Please clean it after you use it",
             "checked_at_return": "Wheels stability, cleanness, visual damage",
             "status": "in lease",
