@@ -1,5 +1,5 @@
 from app import ma
-from models import User, Item
+from models import User, Item, Contract
 
 
 class UserSchema(ma.SQLAlchemySchema):
@@ -25,3 +25,15 @@ class ItemSchema(ma.SQLAlchemySchema):
 
 item_schema = ItemSchema()
 items_schema = ItemSchema(many=True)
+
+
+class ContractSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Contract
+        fields = ('id', 'provider_id', 'consumer_id', 'start_date',
+                  'end_date', 'status', 'picture_after', 'closed_on',
+                  'provider_confirmed_return', 'consumer_confirmed_return')
+        include_fk = True
+
+contract_schema = ContractSchema()
+contracts_schema = ContractSchema(many=True)

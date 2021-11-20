@@ -1,0 +1,28 @@
+{
+  "contracts": [
+    {
+      "provider_id": 1,
+      "consumer_id": 2,
+      "item_id": 1,
+      "start_date": "2021-10-01",
+      "end_date": "2021-11-01",
+      "status": "active",
+      "picture_after": null,
+      "closed_on": null,
+      "provider_confirmed_return": null,
+      "consumer_confirmed_return": null
+    },
+    {
+      "provider_id": 3,
+      "consumer_id": 1,
+      "item_id": 2,
+      "start_date": "2021-11-01",
+      "end_date": "2021-12-01",
+      "status": "active",
+      "picture_after": null,
+      "closed_on": null,
+      "provider_confirmed_return": null,
+      "consumer_confirmed_return": null
+    }
+  ]
+}

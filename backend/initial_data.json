@@ -1,6 +1,7 @@
 {
   "users": [
     {
+        "id": 1,
         "coins": 1000,
         "first_name": "Alexandr",
         "last_name": "Zuev",
@@ -10,6 +11,7 @@
         "level": "padavan"
     },
         {
+          "id": 2,
         "coins": 1750,
         "first_name": "Lucas",
         "last_name": "Orzan",
@@ -19,6 +21,7 @@
         "level": "padavan"
     },
         {
+          "id": 3,
         "coins": 100,
         "first_name": "Syed",
         "last_name": "Mahi",
@@ -29,7 +32,8 @@
     }
   ],
   "items": [{
-        "date_added": "2021-10-10T00:00:00",
+        "id": 1,
+        "date_added": "2021-10-10",
         "name": "Skateboard",
         "description": "A skateboard that I'm not using since I started to work at a big corporation.",
         "owner_id": 1,
@@ -47,7 +51,8 @@
         "picture_before": "/img1.jpeg"
     },
         {
-            "date_added": "2021-10-10T00:00:00",
+            "id": 2,
+            "date_added": "2021-10-10",
             "name": "Travel suitcase",
             "description": "A huge 100L travel suitcase that I only use once per  year",
             "owner_id": 1,
@@ -65,7 +70,8 @@
             "picture_before": "/img2.png"
         },
         {
-            "date_added": "2021-10-10T00:00:00",
+            "id": 3,
+            "date_added": "2021-10-10",
             "name": "Electric Piano",
             "description": "A piano I'm not using because I'm dead inside.",
             "owner_id": 2,
@@ -83,7 +89,8 @@
             "picture_before": "/img3.png"
         },
     {
-            "date_added": "2021-10-10T00:00:00",
+            "id": 4,
+            "date_added": "2021-10-10",
             "name": "Crotches",
             "description": "A pair of crotches I had to buy when I broke a leg.",
             "owner_id": 3,

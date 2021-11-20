@@ -3,8 +3,8 @@ import datetime
 from flask import jsonify, request
 
 from app import create_app, db
-from models import Hackathon, hackathons_schema, hackathon_schema, Item
-from serializers import user_schema, users_schema, items_schema
+from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contract
+from serializers import user_schema, users_schema, items_schema, item_schema, contracts_schema
 from models import User
 
 app = create_app()
@@ -75,29 +75,13 @@ def request_item():
 @app.route('/items/<item_id>', defaults={"uid": None})
 @app.route('/items/<item_id>/<uid>')
 def item(item_id, uid):
-    dummy_item = {
-        "id": item_id,
-        "date_added": "2021-10-10T00:00:00",
-        "name": "Skateboard",
-        "description": "A skateboard that I'm not using since I started to work at a big corporation.",
-        "owner_id": 1,
-        "state": "Heavily abused",
-        "available_since": "2021-12-12",
-        "max_rent_length": 90,
-        "kaution": 200,
-        "coins": 30,
-        "lat": 48.1351253,
-        "lon": 11.5819806,
-        "fragile": False,
-        "required_post_actions": "Please clean it after you use it",
-        "checked_at_return": "Wheels stability",
-        "status": "available",
-        "picture_before": "/img1.jpeg"
-
-    }
-    if uid is not None:
-        dummy_item["rented_by_this_user"] = True
-    return jsonify(dummy_item)
+    item = Item.query.filter_by(id=item_id)[0]
+    contracts = Contract.query.filter_by(item_id=item_id, consumer=uid)
+    item_ = item_schema.dump(item)
+    if contracts.count() != 0:
+        item_["rented_by_this_user"] = True
+    # TODO: make contract check
+    return jsonify(item_)
 
 
 @app.route('/add_item/<uid>', methods=["POST"], strict_slashes=False)
@@ -141,35 +125,17 @@ def user_account(uid):
 @app.route('/running_provider_contracts/<uid>')
 def running_provider_contracts(uid):
     """Contract items for the user with this id"""
-    contracts = [{
-        "contract_id": 1,
-        "provider_id": uid,
-        "consumer_id": 2,
-        "item_id": 1,
-        "start_date": "2021-12-12",
-        "end_date": "2021-12-20",
-        "status": "active",
-        "picture_after": None,
-        "closed_on": None,
-        "provider_confirmed_return": False,
-        "consumer_confirmed_return": False,
-    }]
-    return jsonify(contracts)
+    contracts = Contract.query.filter_by(provider_id=uid)
+    contracts_ = contracts_schema.dump(contracts)
+    return jsonify(contracts_)
 
 
 @app.route('/running_consumer_contracts/<uid>')
 def running_consumer_contracts(uid):
     """Contract items for the user with this id"""
-    contracts = [{
-        "contract_id": 1,
-        "provider_id": 1,
-        "consumer_id": uid,
-        "item_id": 1,
-        "start_date": "2021-12-12",
-        "end_date": "2021-12-20",
-        "status": "active"
-    }]
-    return jsonify(contracts)
+    contracts = Contract.query.filter_by(consumer_id=uid)
+    contracts_ = contracts_schema.dump(contracts)
+    return jsonify(contracts_)
 
 
 @app.route('/all_items')
