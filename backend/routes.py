@@ -17,6 +17,10 @@ def update_contract():
     # 'initial' -> 'pending' -> 'active' -> 'returned' -> 'completed'
     #                                    -> 'complained'
     #                                                  -> 'complained'
+    # return updated contract
+    return jsonify({
+        'status': status
+    })
 
 
 @app.route('/confirm_request', methods=["POST"], strict_slashes=False)
