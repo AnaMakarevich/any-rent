@@ -45,6 +45,21 @@ class Contract(db.Model):
     image_after_url = db.Column(db.String(200), nullable=True)
     closed_on = db.Column(db.DateTime, nullable=True)
 
+    def __repr__(self):
+        return '<Contract {}>'.format(self.id)
+
+
+class Request(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
+    # provider_id is related item.owner_id
+    consumer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    date_added = db.Column(db.DateTime, default=db.func.now(), nullable=False)
+    text = db.Column(db.Text, default='', nullable=False)
+
+    def __repr__(self):
+        return '<Request {}>'.format(self.id)
+
 
 class Hackathon(db.Model):
     id = db.Column(db.Integer, primary_key=True)

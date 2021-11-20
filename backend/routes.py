@@ -36,6 +36,7 @@ def confirm_request():
 def get_item_request(request_id):
     r = {
         'request_id': 1,
+        'item_id': 1,
         'provider_id': 1,
         'consumer_id': 2,
         'text': 'I wanted to try skateboarding!',
@@ -47,6 +48,7 @@ def get_item_request(request_id):
 def item_requests(uid):
     r = [{
         'request_id': 1,
+        'item_id': 1,
         'provider_id': uid,
         'consumer_id': 2,
         'text': 'I wanted to try skateboarding!',
