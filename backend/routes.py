@@ -91,7 +91,7 @@ def user_profile(uid):
 
 
 @app.route('/account/<uid>')
-def user_profile(uid):
+def user_account(uid):
     """The account of the logged in user with uid"""
     user_profile_ = {
         "id": uid,
