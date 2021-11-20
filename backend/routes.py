@@ -8,12 +8,12 @@ from models import Hackathon, hackathons_schema, hackathon_schema
 app = create_app()
 
 
-@app.route('confirm_request', methods=["POST"], strict_slashes=False)
+@app.route('/confirm_request', methods=["POST"], strict_slashes=False)
 def confirm_request():
     pass
 
 
-@app.route('request_item', methods=["POST"], strict_slashes=False)
+@app.route('/request_item', methods=["POST"], strict_slashes=False)
 def request_item():
     uid = request.json['user_id']
     item_id = request.json['item_id']
@@ -25,7 +25,7 @@ def request_item():
     return jsonify(response)
 
 
-@app.route('items/<item_id>')
+@app.route('/items/<item_id>')
 def item(item_id):
     dummy_item = {
         "id": item_id,
