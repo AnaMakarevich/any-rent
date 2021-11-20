@@ -1,6 +1,14 @@
 import datetime
 import json
 
+from models import Request
+
+
+def convert_to_valid_date(date_str):
+    date = date_str.split('-')
+    parsed_date = datetime.datetime(int(date[0]), int(date[1]), int(date[2]))
+    return parsed_date
+
 
 def seed(app, db):
     from models import User, Item, Contract
@@ -15,14 +23,8 @@ def seed(app, db):
                 db.session.commit()
             items = data["items"]
             for item in items:
-                date = item["available_since"].split('-')
-                parsed_date = datetime.datetime(int(date[0]), int(date[1]), int(date[2]))
-                item["available_since"] = parsed_date
-                data_added = item["date_added"].split('-')
-                parsed_date_added = datetime.datetime(int(data_added[0]),
-                                                      int(data_added[1]),
-                                                      int(data_added[2]))
-                item["date_added"] = parsed_date_added
+                item["available_since"] = convert_to_valid_date(item["available_since"])
+                item["date_added"] = convert_to_valid_date(item["date_added"])
                 it = Item(**item)
                 print(it)
                 db.session.add(it)
@@ -31,24 +33,23 @@ def seed(app, db):
         contracts = json.load(f)["contracts"]
         with app.app_context():
             for contract in contracts:
-                start_date = contract["start_date"].split('-')
-                parsed_start_date = datetime.datetime(int(start_date[0]),
-                                                      int(start_date[1]),
-                                                      int(start_date[2]))
-                end_date = contract["end_date"].split('-')
-                parsed_end_date = datetime.datetime(int(end_date[0]),
-                                                    int(end_date[1]),
-                                                    int(end_date[2]))
-                contract["start_date"] = parsed_start_date
-                contract["end_date"] = parsed_end_date
+                contract["start_date"] = convert_to_valid_date(contract["start_date"])
+                contract["end_date"] = convert_to_valid_date(contract["end_date"])
                 contract_ = Contract(**contract)
                 print(contract_)
                 db.session.add(contract_)
                 db.session.commit()
-
-
-
-
+    with open('requests.json') as f:
+        requests_ = json.load(f)["requests"]
+        with app.app_context():
+            for req in requests_:
+                req["start_date"] = convert_to_valid_date(req["start_date"])
+                req["end_date"] = convert_to_valid_date(req["end_date"])
+                req["date_added"] = convert_to_valid_date(req["date_added"])
+                req_ = Request(**req)
+                print(req_)
+                db.session.add(req_)
+                db.session.commit()
 
 
 def deploy():

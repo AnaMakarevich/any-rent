@@ -74,8 +74,11 @@ class Request(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     provider_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     consumer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    start_date = db.Column(db.DateTime, default=db.func.now(), nullable=False)
+    end_date = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     date_added = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     text = db.Column(db.Text, default='', nullable=False)
+    confirmed = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '<Request {}>'.format(self.id)

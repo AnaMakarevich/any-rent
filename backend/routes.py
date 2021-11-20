@@ -3,8 +3,9 @@ import datetime
 from flask import jsonify, request
 
 from app import create_app, db
-from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contract
-from serializers import user_schema, users_schema, items_schema, item_schema, contracts_schema
+from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contract, Request
+from serializers import user_schema, users_schema, items_schema, item_schema, contracts_schema, requests_schema, \
+    request_schema
 from models import User
 
 app = create_app()
@@ -29,37 +30,46 @@ def update_contract():
 def confirm_request():
     uid = request.json['user_id']
     request_id = request.json['request_id']
-    # TODO: set request status to confirmed
-    # TODO: create contract with "status": "initial"
+    # set request status to confirmed
+    req = db.session.query(Request).get(request_id)
+    req.confirmed = True
+    db.session.commit()
+    new_contract = Contract(
+        provider_id=req.provider_id,
+        consumer_id=req.consumer_id,
+        item_id=req.item_id,
+        start_date=req.start_date,
+        end_date = req.end_date,
+        statue="initial",
+        picture_after=None,
+        closed_on=None,
+        provider_confirmed_return=None,
+        consumer_confirmed_return=None
+    )
+    db.session.add(new_contract)
+    db.session.commit()
     return jsonify({'result': 'OK'})
 
 
-@app.route('/item_requests/<request_id>')
+@app.route('/item_request/<request_id>')
 def get_item_request(request_id):
-    r = {
-        'id': request_id,
-        'item_id': 1,
-        'provider_id': 1,
-        'consumer_id': 2,
-        'text': 'I wanted to try skateboarding!',
-    }
-    return jsonify(r)
+    """Returns particular request by id"""
+    req = Request.query.filter_by(id=request_id)
+    req_ = request_schema.dump(req)
+    return jsonify(req_)
 
 
 @app.route('/item_requests/<uid>')
 def item_requests(uid):
-    r = [{
-        'id': 1,
-        'item_id': 1,
-        'provider_id': uid,
-        'consumer_id': 2,
-        'text': 'I wanted to try skateboarding!',
-    }]
-    return jsonify(r)
+    """Returns all the requests made to the user with the given user id"""
+    reqs = db.session.query(Request).filter_by(provider_id=uid, confirmed=False)
+    reqs_ = requests_schema.dump(reqs)
+    return jsonify(reqs_)
 
 
 @app.route('/request_item', methods=["POST"], strict_slashes=False)
 def request_item():
+    """Implements making request to the provider of the item"""
     uid = request.json['user_id']
     item_id = request.json['item_id']
     text = request.json['text']
@@ -86,23 +96,28 @@ def item(item_id, uid):
 
 @app.route('/add_item/<uid>', methods=["POST"], strict_slashes=False)
 def add_item(uid):
-    name = request.json['name']
-    item = {
-        "name": name,
+    item_ = {
+        "name": request.json['name'],
         "description": request.json["description"],
         "owner_id": uid,
         "state": request.json["state"],
         "available_since": request.json["available_since"],
         "max_rent_length": request.json["max_rent_length"],
         "kaution": request.json["kaution"],
-        "lat": 48.1351253,
-        "lon": 11.5819806,
+        "lat": request.json["lat"],
+        "lon": request.json["lon"],
         "fragile": request.json["fragile"],
         "required_post_actions": request.json["required_post_actions"],
         "checked_at_return": request.json["checked_at_return"],
         "status": request.json["status"],
-        "picture_before": "/img1.jpeg"
+        "picture_before": request.json["picture_before"],
     }
+    date = item["available_since"].split('-')
+    parsed_date = datetime.datetime(int(date[0]), int(date[1]), int(date[2]))
+    item["available_since"] = parsed_date
+    new_item = Item(**item_)
+    db.session.add(new_item)
+    db.session.commit()
     return jsonify(item)
 
 
