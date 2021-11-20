@@ -8,15 +8,103 @@ from models import Hackathon, hackathons_schema, hackathon_schema
 app = create_app()
 
 
-@app.route('/account/<uid>')
+@app.route('confirm_request', methods=["POST"], strict_slashes=False)
+def confirm_request():
+    pass
+
+
+@app.route('request_item', methods=["POST"], strict_slashes=False)
+def request_item():
+    uid = request.json['user_id']
+    item_id = request.json['item_id']
+    text = request.json['text']
+    # TODO: generate request test
+    # TODO: send an email
+    # TODO: create request item in the database
+    response = {"result": "OK"}
+    return jsonify(response)
+
+
+@app.route('items/<item_id>')
+def item(item_id):
+    dummy_item = {
+        "id": item_id,
+        "date_added": "2021-10-10T00:00:00",
+        "name": "Skateboard",
+        "description": "A skateboard that I'm not using since I started to work at a big corporation.",
+        "owner": 1,
+        "state": "Heavily abused",
+        "available_since": "2021-12-12",
+        "max_rent_length": 90,
+        "kaution": 200,
+        "coins": 30,
+        "location": {
+            "lat": 48.1351253,
+            "lon": 11.5819806
+        },
+        "Fragile": False,
+        "required_post_actions": "Please clean it after you use it",
+        "checked_at_return": "Wheels stability",
+        "status": "available",
+        "picture_before": "/img1.jpeg"
+    }
+    return jsonify(dummy_item)
+
+
+@app.route('/add_item', methods=["POST"], strict_slashes=False)
+def add_item():
+    name = request.json['name']
+    item = {
+        "name": name,
+        "description": request.json["description"],
+        "state": request.json["state"],
+        "available_since": request.json["available_since"],
+        "max_rent_length": request.json["max_rent_length"],
+        "kaution": request.json["kaution"],
+        "location": {
+            "lat": 48.1351253,
+            "lon": 11.5819806
+        },
+        "Fragile": request.json["Fragile"],
+        "required_post_actions": request.json["required_post_actions"],
+        "checked_at_return": request.json["checked_at_return"],
+        "status": request.json["status"],
+        "picture_before": "/img1.jpeg"
+    }
+    return jsonify(item)
+
+
+@app.route('/user_profile/<uid>')
 def user_profile(uid):
-    user_profile = {
-        "id": 1,
+    """The profile of some user shown to everyone logged in"""
+    user_profile_ = {
+        "id": uid,
         "coins": 1000,
         "first_name": "Bruce",
         "last_name": "Lee",
+        "successful_returns": 5,
+        "num_current_contracts_consumer": 10,  # suspicious!
+        "num_current_contracts_provider": 0,
+        "level": "padavan"
     }
-    return jsonify(user_profile)
+    return jsonify(user_profile_)
+
+
+@app.route('/account/<uid>')
+def user_profile(uid):
+    """The account of the logged in user with uid"""
+    user_profile_ = {
+        "id": uid,
+        "coins": 1000,
+        "first_name": "Bruce",
+        "last_name": "Lee",
+        "successful_returns": 5,
+        "num_current_contracts_consumer": 10,  # suspicious!
+        "num_current_contracts_provider": 0,
+        "complaints": 1,
+        "level": "padavan"
+    }
+    return jsonify(user_profile_)
 
 
 @app.route('/running_provider_contracts/<uid>')
