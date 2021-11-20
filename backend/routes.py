@@ -70,8 +70,9 @@ def request_item():
     return jsonify(response)
 
 
-@app.route('/items/<item_id>')
-def item(item_id):
+@app.route('/items/<items_id>', defaults={"uid": None})
+@app.route('/items/<item_id>/<uid>')
+def item(item_id, uid):
     dummy_item = {
         "id": item_id,
         "date_added": "2021-10-10T00:00:00",
@@ -92,7 +93,10 @@ def item(item_id):
         "checked_at_return": "Wheels stability",
         "status": "available",
         "picture_before": "/img1.jpeg"
+
     }
+    if uid is not None:
+        dummy_item["rented_by_this_user"] = True
     return jsonify(dummy_item)
 
 
@@ -254,6 +258,7 @@ def available_items():
         }
     ]
     return jsonify(dummy_items)
+
 
 
 @app.route('/owned_items/<uid>')
