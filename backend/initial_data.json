@@ -81,6 +81,24 @@
             "checked_at_return": "Keys stability, visual damage such as scratches",
             "status": "available",
             "picture_before": "/img3.png"
+        },
+    {
+            "date_added": "2021-10-10T00:00:00",
+            "name": "Crotches",
+            "description": "A pair of crotches I had to buy when I broke a leg.",
+            "owner_id": 3,
+            "state": "Good condition",
+            "available_since": "2021-12-12",
+            "max_rent_length": null,
+            "kaution": 0,
+            "coins": 30,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": false,
+            "required_post_actions": "Please clean it after you use it",
+            "checked_at_return": "Wheels stability, cleanness, visual damage",
+            "status": "in lease",
+            "picture_before": "/img4.jpeg"
         }
     ]
 }

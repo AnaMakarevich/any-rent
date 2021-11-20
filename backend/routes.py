@@ -125,20 +125,8 @@ def add_item(uid):
 @app.route('/user_profile/<uid>')
 def user_profile(uid):
     """The profile of some user shown to everyone logged in"""
-    user = User.query.filter_by(id = 1)[0]
+    user = User.query.filter_by(id=1)[0]
     user_profile_ = user_schema.dump(user)
-    """
-    user_profile_ = {
-        "id": uid,
-        "coins": 1000,
-        "first_name": "Bruce",
-        "last_name": "Lee",
-        "successful_returns": 5,
-        "num_current_contracts_consumer": 10,  # suspicious!
-        "num_current_contracts_provider": 0,
-        "level": "padavan"
-    }
-    """
     return jsonify(user_profile_)
 
 
@@ -186,138 +174,23 @@ def running_consumer_contracts(uid):
 
 @app.route('/all_items')
 def available_items():
-    """All available items"""
-    dummy_items = [{
-        "id": 1,
-        "date_added": "2021-10-10T00:00:00",
-        "name": "Skateboard",
-        "description": "A skateboard that I'm not using since I started to work at a big corporation.",
-        "owner_id": 1,
-        "state": "Heavily abused",
-        "available_since": "2021-12-12",
-        "max_rent_length": 90,
-        "kaution": 200,
-        "coins": 30,
-        "lat": 48.1351253,
-        "lon": 11.5819806,
-        "fragile": False,
-        "required_post_actions": "Please clean it after you use it",
-        "checked_at_return": "Wheels stability",
-        "status": "available",
-        "picture_before": "/img1.jpeg"
-    },
-        {
-            "id": 2,
-            "date_added": "2021-10-10T00:00:00",
-            "name": "Travel suitcase",
-            "description": "A huge 100L travel suitcase that I only use once per  year",
-            "owner_id": 1,
-            "state": "Almost new",
-            "available_since": "2021-12-12",
-            "max_rent_length": 60,
-            "kaution": 200,
-            "coins": 60,
-            "lat": 48.1351253,
-            "lon": 11.5819806,
-            "fragile": False,
-            "required_post_actions": "Please clean it after you use it",
-            "checked_at_return": "Wheels stability, cleanness, visual damage",
-            "status": "available",
-            "picture_before": "/img1.jpeg"
-        },
-        {
-            "id": 4,
-            "date_added": "2021-10-10T00:00:00",
-            "name": "Electric Piano",
-            "description": "A piano I'm not using because I'm dead inside.",
-            "owner_id": 2,
-            "state": "Almost new",
-            "available_since": "2021-12-12",
-            "max_rent_length": 180,
-            "kaution": 200,
-            "coins": 30,
-            "lat": 48.1351253,
-            "lon": 11.5819806,
-            "fragile": True,
-            "required_post_actions": "None",
-            "checked_at_return": "Keys stability, visual damage such as scratches",
-            "status": "available",
-            "picture_before": "/img1.jpeg"
-        }
-    ]
-    return jsonify(dummy_items)
+    items = Item.query.filter_by(status="available")
+    items_ = items_schema.dump(items)
+    return jsonify(items_)
 
 
 @app.route('/owned_items/<uid>')
 def owned_items(uid):
-    dummy_owned_items = [
-        {
-            "id": 1,
-            "date_added": "2021-10-10T00:00:00",
-            "name": "Skateboard",
-            "description": "A skateboard that I'm not using since I started to work at a big corporation.",
-            "owner_id": uid,
-            "state": "Heavily abused",
-            "available_since": "2021-12-12",
-            "max_rent_length": 90,
-            "kaution": 200,
-            "coins": 30,
-            "lat": 48.1351253,
-            "lon": 11.5819806,
-            "fragile": False,
-            "required_post_actions": "Please clean it after you use it",
-            "checked_at_return": "Wheels stability",
-            "status": "available",
-            "picture_before": "/img1.jpeg"
-        },
-        {
-            "id": 2,
-            "date_added": "2021-10-10T00:00:00",
-            "name": "Travel suitcase",
-            "description": "A huge 100L travel suitcase that I only use once per  year",
-            "owner_id": uid,
-            "state": "Almost new",
-            "available_since": "2021-12-12",
-            "max_rent_length": 60,
-            "kaution": 200,
-            "coins": 60,
-            "lat": 48.1351253,
-            "lon": 11.5819806,
-            "fragile": False,
-            "required_post_actions": "Please clean it after you use it",
-            "checked_at_return": "Wheels stability, cleanness, visual damage",
-            "status": "available",
-            "picture_before": "/img1.jpeg"
-        }
-    ]
-    return jsonify(dummy_owned_items)
+    items = Item.query.filter_by(owner_id=uid)
+    items_ = items_schema.dump(items)
+    return jsonify(items_)
 
 
 @app.route("/rented_items/<uid>")
 def borrowed_items(uid):
-    """Items that you rented to someone"""
-    dummy_rented_items = [
-        {
-            "id": 3,
-            "date_added": "2021-10-10T00:00:00",
-            "name": "Crotches",
-            "description": "A pair of crotches I had to buy when I broke a leg.",
-            "owner_id": uid,
-            "state": "Good condition",
-            "available_since": "2021-12-12",
-            "max_rent_length": None,  # None means for as long as needed
-            "kaution": 0,
-            "coins": 30,
-            "lat": 48.1351253,
-            "lon": 11.5819806,
-            "fragile": False,
-            "required_post_actions": "Please clean it after you use it",
-            "checked_at_return": "Wheels stability, cleanness, visual damage",
-            "status": "in lease",
-            "picture_before": "/img1.jpeg"
-        }
-    ]
-    return dummy_rented_items
+    items = Item.query.filter_by(owner_id=uid, status="in lease")
+    items_ = items_schema.dump(items)
+    return jsonify(items_)
 
 
 @app.route('/', methods=["GET"], strict_slashes=False)
@@ -331,8 +204,6 @@ def hackathons():
     all_hackathons = Hackathon.query.all()
     items = Item.query.all()
     items_ = items_schema.dump(items)
-    print(items_)
-
     all_hackathons_ser = jsonify(hackathons_schema.dump(all_hackathons))
     return all_hackathons_ser
 
