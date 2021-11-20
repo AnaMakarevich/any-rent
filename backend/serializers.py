@@ -36,7 +36,8 @@ class ContractSchema(ma.SQLAlchemySchema):
         model = Contract
         fields = ('id', 'provider', 'consumer', 'item', 'start_date',
                   'end_date', 'status', 'picture_after', 'closed_on',
-                  'provider_confirmed_return', 'consumer_confirmed_return')
+                  'provider_confirmed_return', 'consumer_confirmed_return',
+                  'provider_confirmed_transfer', 'consumer_confirmed_transfer')
         include_fk = True
 
     item = ma.Nested(ItemSchema)

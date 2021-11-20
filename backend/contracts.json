@@ -9,6 +9,8 @@
       "status": "active",
       "picture_after": null,
       "closed_on": null,
+      "provider_confirmed_transfer": null,
+      "consumer_confirmed_transfer": null,
       "provider_confirmed_return": null,
       "consumer_confirmed_return": null
     },
@@ -21,6 +23,8 @@
       "status": "active",
       "picture_after": null,
       "closed_on": null,
+      "provider_confirmed_transfer": null,
+      "consumer_confirmed_transfer": null,
       "provider_confirmed_return": null,
       "consumer_confirmed_return": null
     }

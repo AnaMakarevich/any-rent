@@ -4,25 +4,46 @@ from flask import jsonify, request
 
 from app import create_app, db
 from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contract, Request
-from serializers import user_schema, users_schema, items_schema, item_schema, contracts_schema, requests_schema, \
+from serializers import user_schema, items_schema, item_schema, contracts_schema, requests_schema, \
     request_schema
 from models import User
 
 app = create_app()
 
 
-@app.route('/update_contract', methods=['POST'], strict_slashes=False)
-def update_contract():
-    uid = request.json['user_id']
+@app.route('/update_contract/<action>', methods=['POST'], strict_slashes=False)
+def update_contract(action):
     contract_id = request.json['contract_id']
-    status = request.json['status']  # new status
+    uid = request.json['user_id']
+    contract = db.session.query(Contract).get(contract_id)
+    if action == "consumer_confirm_return":
+        contract.consumer_confirmed_return = True
+        contract.status = "returned"
+    elif action == "provider_confirm_return":
+        contract.provider_confirmed_return = True
+        contract.status = "completed"
+    elif action == "provider_confirm_transfer":
+        contract.provider_confirmed_transfer = True
+        contract.status = "pending"
+    elif action == "consumer_confirm_transfer":
+        contract.consumer_confirmed_transfer = True
+        contract.status = "active"
+    elif action == "complain":
+        contract.status = "complained"
+        if contract.provider_id == uid:
+            contract.status = "provider_complained"
+        elif contract.consumer_id == uid:
+            contract.status = "consumer_complained"
+        print("The complained was registered. The money will be transferred to your account")
+    db.session.commit()
+
     # TODO: update contract status only if applicable. so, status e. g.:
     # 'initial' -> 'pending' -> 'active' -> 'returned' -> 'completed'
     #                                    -> 'complained'
     #                                                  -> 'complained'
     # return updated contract
     return jsonify({
-        'status': status
+        'status': contract.status
     })
 
 
@@ -34,12 +55,13 @@ def confirm_request():
     req = db.session.query(Request).get(request_id)
     req.confirmed = True
     db.session.commit()
+    # TODO: initialize blockchain block
     new_contract = Contract(
         provider_id=req.provider_id,
         consumer_id=req.consumer_id,
         item_id=req.item_id,
         start_date=req.start_date,
-        end_date = req.end_date,
+        end_date=req.end_date,
         statue="initial",
         picture_after=None,
         closed_on=None,

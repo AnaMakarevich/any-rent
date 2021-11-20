@@ -64,6 +64,8 @@ class Contract(db.Model):
     closed_on = db.Column(db.DateTime, nullable=True)
     provider_confirmed_return = db.Column(db.Boolean, default=False, nullable=False)
     consumer_confirmed_return = db.Column(db.Boolean, default=False, nullable=False)
+    provider_confirmed_transfer = db.Column(db.Boolean, default=False, nullable=False)
+    consumer_confirmed_transfer = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '<Contract {}>'.format(self.id)
