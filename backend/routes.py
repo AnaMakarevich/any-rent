@@ -16,25 +16,37 @@ def update_contract(action):
     contract_id = request.json['contract_id']
     uid = request.json['user_id']
     contract = db.session.query(Contract).get(contract_id)
+    consumer = db.session.query(User).get(contract.consumer_id)
+    provider = db.session.query(User).get(contract.provider_id)
+    item = db.session.query(Item).get(contract.item_id)
     if action == "consumer_confirm_return":
         contract.consumer_confirmed_return = True
         contract.status = "returned"
     elif action == "provider_confirm_return":
         contract.provider_confirmed_return = True
         contract.status = "completed"
+        consumer.successful_returns += 1
+        consumer.num_current_contracts_consumer -= 1
+        provider.num_current_contracts_consumer -= 1
+        provider.coins += item.coins
     elif action == "provider_confirm_transfer":
         contract.provider_confirmed_transfer = True
         contract.status = "pending"
+        consumer.coins -= item.coins
     elif action == "consumer_confirm_transfer":
         contract.consumer_confirmed_transfer = True
         contract.status = "active"
+        consumer.num_current_contracts_consumer += 1
+        provider.num_current_contracts_consumer += 1
     elif action == "complain":
         contract.status = "complained"
         if contract.provider_id == uid:
             contract.status = "provider_complained"
+            consumer.complaints += 1
         elif contract.consumer_id == uid:
             contract.status = "consumer_complained"
-        print("The complained was registered. The money will be transferred to your account")
+            provider.complaints += 1
+        print("The complaint was registered. The money will be transferred to your account")
     db.session.commit()
 
     # TODO: update contract status only if applicable. so, status e. g.:
