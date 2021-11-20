@@ -1,0 +1,81 @@
+.container {
+  /* background-color: red; */
+  align-items: stretch;
+  margin-bottom: 2em;
+}
+
+.image {
+  height: 30em;
+  width: 100%;
+  object-fit: cover;
+}
+
+.imageContainer {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.textContainer {
+}
+
+.itemTitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 44px;
+  color: #000000;
+}
+.itemPrice {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  color: #8c58df;
+}
+
+.actionContainer {
+  margin-top: 2em;
+}
+
+.dropdown {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid black;
+}
+
+.buyButton {
+  margin-top: 0.1em;
+  background-color: black;
+  color: white;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.1em;
+
+  width: 100%;
+  padding: 5px;
+}
+
+@media screen and (min-width: 768px) {
+  .textContainer {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
+}
+
+.bottomWrapper {
+}
+
+.bottomTitle {
+  /* background-color: rebeccapurple; */
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.1em;
+  text-align: center;
+  cursor: pointer;
+}

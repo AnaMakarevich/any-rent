@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function ItemRoute() {
+export default function LoginRoute() {
     return (
         <div>
-            item
+            login
         </div>
     )
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function ItemRoute() {
+export default function RentOutRoute() {
     return (
         <div>
-            item
+            rent out
         </div>
     )
 }

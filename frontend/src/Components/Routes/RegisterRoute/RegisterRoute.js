@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function ItemRoute() {
+export default function RegisterRoute() {
     return (
         <div>
-            item
+            register
         </div>
     )
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function ItemRoute() {
+export default function OverviewRoute() {
     return (
         <div>
-            item
+            overview
         </div>
     )
 }
