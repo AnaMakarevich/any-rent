@@ -1,3 +1,18 @@
+import json
+
+
+def seed(app, db):
+    from models import User, Item, Contract
+    with open('initial_data.json') as f:
+        data = json.load(f)
+        with app.app_context():
+            users = data["users"]
+            for user in users:
+                u = User(**user)
+                print(u)
+                db.session.add(u)
+                db.session.commit()
+
 
 def deploy():
     from app import create_app, db
@@ -13,6 +28,7 @@ def deploy():
     stamp()
     migrate()
     upgrade()
+    seed(app, db)
 
 
 deploy()

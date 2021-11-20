@@ -4,6 +4,8 @@ from flask import jsonify, request
 
 from app import create_app, db
 from models import Hackathon, hackathons_schema, hackathon_schema
+from serializers import user_schema, users_schema
+from models import User
 
 app = create_app()
 
@@ -123,6 +125,9 @@ def add_item(uid):
 @app.route('/user_profile/<uid>')
 def user_profile(uid):
     """The profile of some user shown to everyone logged in"""
+    user = User.query.filter_by(id = 1)[0]
+    user_profile_ = user_schema.dump(user)
+    """
     user_profile_ = {
         "id": uid,
         "coins": 1000,
@@ -133,23 +138,15 @@ def user_profile(uid):
         "num_current_contracts_provider": 0,
         "level": "padavan"
     }
+    """
     return jsonify(user_profile_)
 
 
 @app.route('/account/<uid>')
 def user_account(uid):
+    user = User.query.filter_by(id=1)[0]
+    user_profile_ = user_schema.dump(user)
     """The account of the logged in user with uid"""
-    user_profile_ = {
-        "id": uid,
-        "coins": 1000,
-        "first_name": "Bruce",
-        "last_name": "Lee",
-        "successful_returns": 5,
-        "num_current_contracts_consumer": 10,  # suspicious!
-        "num_current_contracts_provider": 0,
-        "complaints": 1,
-        "level": "padavan"
-    }
     return jsonify(user_profile_)
 
 
@@ -251,7 +248,6 @@ def available_items():
     return jsonify(dummy_items)
 
 
-
 @app.route('/owned_items/<uid>')
 def owned_items(uid):
     dummy_owned_items = [
@@ -333,7 +329,11 @@ def index():
 def hackathons():
     # get queryset
     all_hackathons = Hackathon.query.all()
-
+    users = User.query.all()
+    print(users_schema.dump(users))
+    user = User.query.filter_by(id = 1)[0]
+    print(user_schema.dump(user))
+    print(users)
     all_hackathons_ser = jsonify(hackathons_schema.dump(all_hackathons))
     return all_hackathons_ser
 

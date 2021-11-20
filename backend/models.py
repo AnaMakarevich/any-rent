@@ -14,13 +14,13 @@ class User(db.Model):
 
     items = db.relationship('Item', backref='owner', lazy=True)
     provider_contracts = db.relationship('Contract', backref='provider',
-        foreign_keys='Contract.provider_id', lazy=True)
+                                         foreign_keys='Contract.provider_id', lazy=True)
     consumer_contracts = db.relationship('Contract', backref='consumer',
-        foreign_keys='Contract.consumer_id', lazy=True)
+                                         foreign_keys='Contract.consumer_id', lazy=True)
     incoming_requests = db.relationship('Request', backref='provider',
-        foreign_keys='Request.provider_id', lazy=True)
+                                        foreign_keys='Request.provider_id', lazy=True)
     outgoing_requests = db.relationship('Request', backref='consumer',
-        foreign_keys='Request.consumer_id', lazy=True)
+                                        foreign_keys='Request.consumer_id', lazy=True)
 
     def __repr__(self):
         return '<User {}>'.format(self.id)

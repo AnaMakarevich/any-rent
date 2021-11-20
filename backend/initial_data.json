@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+        "coins": 1000,
+        "first_name": "Bruce",
+        "last_name": "Lee",
+        "successful_returns": 5,
+        "num_current_contracts_consumer": 10,
+        "num_current_contracts_provider": 0,
+        "level": "padavan"
+    }
+  ]
+}
