@@ -10,6 +10,8 @@ Imagine, there is a girl called Lily. She is 24 and she is all excitied about sk
 
 Next, there is Steven, 18, who is not sure he will like skateboarding, but wants to try it for a couple of months. Steven uses AnyRent to rent a skateboard for a few weeks and then return it, knowing if he wants one forever or if he will be just renting it from time to time. 
 
+There is also Joe, who wants to have a party but doesn't have speakers. He uses AnyRent to rent the speakers from a guy who appears to live just one bus stop away from him. Later, the same person rents a travel suit case from Joe using AnyRent.
+
 And finally there is Amy and Mark who live on the same street. They don't know each other, but they both like creating music from time to time. Buying a full new equipment alone is expensive and they will have to save for a long time. They use AnyApp to search for a potential co-owner and find each other. They they request and confirm co-ownership of the item using the app, that tracks and verifies fair usage schedule. 
 
 ## How we built it
