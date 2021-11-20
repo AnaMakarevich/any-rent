@@ -9,7 +9,7 @@ class User(db.Model):
     coins = db.Column(db.Integer, default=100, nullable=False)
     level = db.Column(db.String(100), default='padavan', nullable=False)
 
-    items = db.relationship('Item', backref='user', lazy=True)
+    items = db.relationship('Item', backref='owner', lazy=True)
     provider_contracts = db.relationship('Contract', backref='provider',
         foreign_keys='Contract.provider_id', lazy=True)
     consumer_contracts = db.relationship('Contract', backref='consumer',
