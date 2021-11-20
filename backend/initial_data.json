@@ -2,12 +2,85 @@
   "users": [
     {
         "coins": 1000,
-        "first_name": "Bruce",
-        "last_name": "Lee",
+        "first_name": "Alexandr",
+        "last_name": "Zuev",
         "successful_returns": 5,
         "num_current_contracts_consumer": 10,
         "num_current_contracts_provider": 0,
         "level": "padavan"
+    },
+        {
+        "coins": 1750,
+        "first_name": "Lucas",
+        "last_name": "Orzan",
+        "successful_returns": 10,
+        "num_current_contracts_consumer": 10,
+        "num_current_contracts_provider": 2,
+        "level": "padavan"
+    },
+        {
+        "coins": 100,
+        "first_name": "Syed",
+        "last_name": "Mahi",
+        "successful_returns": 3,
+        "num_current_contracts_consumer": 10,
+        "num_current_contracts_provider": 0,
+        "level": "padavan"
     }
-  ]
+  ],
+  "items": [{
+        "date_added": "2021-10-10T00:00:00",
+        "name": "Skateboard",
+        "description": "A skateboard that I'm not using since I started to work at a big corporation.",
+        "owner_id": 1,
+        "state": "Heavily abused",
+        "available_since": "2021-12-12",
+        "max_rent_length": 90,
+        "kaution": 200,
+        "coins": 30,
+        "lat": 48.1351253,
+        "lon": 11.5819806,
+        "fragile": false,
+        "required_post_actions": "Please clean it after you use it",
+        "checked_at_return": "Wheels stability",
+        "status": "available",
+        "picture_before": "/img1.jpeg"
+    },
+        {
+            "date_added": "2021-10-10T00:00:00",
+            "name": "Travel suitcase",
+            "description": "A huge 100L travel suitcase that I only use once per  year",
+            "owner_id": 1,
+            "state": "Almost new",
+            "available_since": "2021-12-12",
+            "max_rent_length": 60,
+            "kaution": 200,
+            "coins": 60,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": false,
+            "required_post_actions": "Please clean it after you use it",
+            "checked_at_return": "Wheels stability, cleanness, visual damage",
+            "status": "available",
+            "picture_before": "/img2.png"
+        },
+        {
+            "date_added": "2021-10-10T00:00:00",
+            "name": "Electric Piano",
+            "description": "A piano I'm not using because I'm dead inside.",
+            "owner_id": 2,
+            "state": "Almost new",
+            "available_since": "2021-12-12",
+            "max_rent_length": 180,
+            "kaution": 200,
+            "coins": 30,
+            "lat": 48.1351253,
+            "lon": 11.5819806,
+            "fragile": true,
+            "required_post_actions": "None",
+            "checked_at_return": "Keys stability, visual damage such as scratches",
+            "status": "available",
+            "picture_before": "/img3.png"
+        }
+    ]
 }

@@ -33,7 +33,7 @@ class Item(db.Model):
     description = db.Column(db.Text(), default='', nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     state = db.Column(db.String(100), default='', nullable=False)
-    availible_since = db.Column(db.DateTime, default=db.func.now())
+    available_since = db.Column(db.DateTime, default=db.func.now())
     max_rent_length = db.Column(db.Integer, default=90, nullable=False)
     kaution = db.Column(db.Integer, default=0, nullable=False)
     coins = db.Column(db.Integer, default=0, nullable=False)

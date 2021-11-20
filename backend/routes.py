@@ -3,8 +3,8 @@ import datetime
 from flask import jsonify, request
 
 from app import create_app, db
-from models import Hackathon, hackathons_schema, hackathon_schema
-from serializers import user_schema, users_schema
+from models import Hackathon, hackathons_schema, hackathon_schema, Item
+from serializers import user_schema, users_schema, items_schema
 from models import User
 
 app = create_app()
@@ -329,11 +329,10 @@ def index():
 def hackathons():
     # get queryset
     all_hackathons = Hackathon.query.all()
-    users = User.query.all()
-    print(users_schema.dump(users))
-    user = User.query.filter_by(id = 1)[0]
-    print(user_schema.dump(user))
-    print(users)
+    items = Item.query.all()
+    items_ = items_schema.dump(items)
+    print(items_)
+
     all_hackathons_ser = jsonify(hackathons_schema.dump(all_hackathons))
     return all_hackathons_ser
 
