@@ -7,7 +7,7 @@ from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contrac
 from serializers import user_schema, items_schema, item_schema, contracts_schema, requests_schema, \
     request_schema
 from models import User
-from scclient import MyClientProtocol, run as run_client, queue
+#from scclient import MyClientProtocol, run as run_client, queue
 
 app = create_app()
 
@@ -241,8 +241,7 @@ def add_hackathon():
     db.session.commit()
     return hackathon_schema.jsonify(hackathon)
 
-
-@app.route('/test')
+""""@app.route('/test')
 def test_endpoint():
     contract = 'DigitalCurrency'
     method = 'balance'
@@ -270,6 +269,6 @@ def run_scclient():
 
 #run_scclient()
 
-
+"""
 if __name__ == "__main__":
     app.run(debug=True)
