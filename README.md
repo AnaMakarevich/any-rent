@@ -12,7 +12,7 @@ Next, there is Steven, 18, who is not sure he will like skateboarding, but wants
 
 There is also Joe, who wants to have a party but doesn't have speakers. He uses AnyRent to rent the speakers from a guy who appears to live just one bus stop away from him. Later, the same person rents a travel suit case from Joe using AnyRent.
 
-And finally there is Amy and Mark who live on the same street. They don't know each other, but they both like creating music from time to time. Buying a full new equipment alone is expensive and they will have to save for a long time. They use AnyApp to search for a potential co-owner and find each other. They they request and confirm co-ownership of the item using the app, that tracks and verifies fair usage schedule. 
+And finally there is Amy and Mark who live on the same street. They don't know each other, but they both like creating music from time to time. Buying a full new equipment alone is expensive and they will have to save for a long time. They use AnyRent to search for a potential co-owner and find each other. They they request and confirm co-ownership of the item using the app, that tracks and verifies fair usage schedule. 
 
 ## How we built it
 Magic
