@@ -6,7 +6,7 @@ A lot of effort has been made to reduce the carbon footprint. We are trying to b
 
 ## What it does
 
-Imagine, there is a girl called Lily. She is 24 and she is all excitied about skateboarding, so she goes and buys a new skateboard for her to start with the new hobby. A few months later Lily finds a job in a big corporation, and she gets so busy with her new responsibilities that she doesn't have time for her hobby anymore. And the skateboard is taking space. She still wants to own it because she thinks he might get back to her hobby at some point. Lily uses AnyRent to offer her skateboard to people nearby for a while, while being secured by the contract that she will get it back in a good condition.
+Imagine, there is a girl called Lily. She is 24 and she is all excitied about skateboarding, so she goes and buys a new skateboard. Later Lily finds a job in a big corporation, and she doesn't have time for her hobby anymore. It just takes space. She still wants to own it because she thinks he might get back to her hobby. Lily uses AnyRent to offer her skateboard to people nearby for a while, while being secured by the contract that she will get it back in a good condition.
 
 Next, there is Steven, 18, who is not sure he will like skateboarding, but wants to try it for a couple of months. Steven uses AnyRent to rent a skateboard for a few weeks and then return it, knowing if he wants one forever or if he will be just renting it from time to time. 
 
