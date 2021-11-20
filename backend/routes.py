@@ -8,6 +8,121 @@ from models import Hackathon, hackathons_schema, hackathon_schema
 app = create_app()
 
 
+@app.route('/account/<uid>')
+def user_profile(uid):
+    user_profile = {
+        "id": 1,
+        "coins": 1000,
+        "first_name": "Bruce",
+        "last_name": "Lee",
+    }
+    return jsonify(user_profile)
+
+
+@app.route('/running_provider_contracts/<uid>')
+def running_provider_contracts(uid):
+    """Contract items for the user with this id"""
+    contracts = [{
+        "contract_id": 1,
+        "provider": uid,
+        "consumer": 2,
+        "item": 1,
+        "start_date": "2021-12-12",
+        "end_date": "2021-12-20",
+        "status": "active",
+        "picture_after": None,
+        "closed_on": None,
+        "provider_confirmed_return": False,
+        "consumer_confirmed_return": False,
+    }]
+    return jsonify(contracts)
+
+
+@app.route('/running_consumer_contracts/<uid>')
+def running_consumer_contracts(uid):
+    """Contract items for the user with this id"""
+    contracts = [{
+        "contract_id": 1,
+        "provider": 1,
+        "consumer": uid,
+        "item": 1,
+        "start_date": "2021-12-12",
+        "end_date": "2021-12-20",
+        "status": "active"
+    }]
+    return jsonify(contracts)
+
+
+@app.route('/all_items')
+def available_items():
+    """All available items"""
+    dummy_items = [{
+        "id": 1,
+        "date_added": "2021-10-10T00:00:00",
+        "name": "Skateboard",
+        "description": "A skateboard that I'm not using since I started to work at a big corporation.",
+        "owner": 1,
+        "state": "Heavily abused",
+        "available_since": "2021-12-12",
+        "max_rent_length": 90,
+        "kaution": 200,
+        "coins": 30,
+        "location": {
+            "lat": 48.1351253,
+            "lon": 11.5819806
+        },
+        "Fragile": False,
+        "required_post_actions": "Please clean it after you use it",
+        "checked_at_return": "Wheels stability",
+        "status": "available",
+        "picture_before": "/img1.jpeg"
+    },
+        {
+            "id": 2,
+            "date_added": "2021-10-10T00:00:00",
+            "name": "Travel suitcase",
+            "description": "A huge 100L travel suitcase that I only use once per  year",
+            "owner": 1,
+            "state": "Almost new",
+            "available_since": "2021-12-12",
+            "max_rent_length": 60,
+            "kaution": 200,
+            "coins": 60,
+            "location": {
+                "lat": 48.1351253,
+                "lon": 11.5819806
+            },
+            "Fragile": False,
+            "required_post_actions": "Please clean it after you use it",
+            "checked_at_return": "Wheels stability, cleanness, visual damage",
+            "status": "available",
+            "picture_before": "/img1.jpeg"
+        },
+        {
+            "id": 4,
+            "date_added": "2021-10-10T00:00:00",
+            "name": "Electric Piano",
+            "description": "A piano I'm not using because I'm dead inside.",
+            "owner": 2,
+            "state": "Almost new",
+            "available_since": "2021-12-12",
+            "max_rent_length": 180,
+            "kaution": 200,
+            "coins": 30,
+            "location": {
+                "lat": 48.1351253,
+                "lon": 11.5819806
+            },
+            "Fragile": True,
+            "required_post_actions": "None",
+            "checked_at_return": "Keys stability, visual damage such as scratches",
+            "status": "available",
+            "picture_before": "/img1.jpeg"
+        }
+    ]
+    return jsonify(dummy_items)
+
+
 @app.route('/owned_items/<uid>')
 def owned_items(uid):
     dummy_owned_items = [
@@ -25,7 +140,12 @@ def owned_items(uid):
             "location": {
                 "lat": 48.1351253,
                 "lon": 11.5819806
-            }
+            },
+            "Fragile": False,
+            "required_post_actions": "Please clean it after you use it",
+            "checked_at_return": "Wheels stability",
+            "status": "available",
+            "picture_before": "/img1.jpeg"
         },
         {
             "id": 2,
@@ -41,17 +161,44 @@ def owned_items(uid):
             "location": {
                 "lat": 48.1351253,
                 "lon": 11.5819806
-            }
+            },
+            "Fragile": False,
+            "required_post_actions": "Please clean it after you use it",
+            "checked_at_return": "Wheels stability, cleanness, visual damage",
+            "status": "available",
+            "picture_before": "/img1.jpeg"
         }
     ]
     return jsonify(dummy_owned_items)
 
-@app.route("/rented_items")
-def borrowed_items():
-    dummy_borrowed_items = {
 
-    }
-    return None
+@app.route("/rented_items/<uid>")
+def borrowed_items(uid):
+    """Items that you rented to someone"""
+    dummy_rented_items = [
+        {
+            "id": 3,
+            "date_added": "2021-10-10T00:00:00",
+            "name": "Crotches",
+            "description": "A pair of crotches I had to buy when I broke a leg.",
+            "owner": uid,
+            "state": "Good condition",
+            "available_since": "2021-12-12",
+            "max_rent_length": None,  # None means for as long as needed
+            "kaution": 0,
+            "coins": 30,
+            "location": {
+                "lat": 48.1351253,
+                "lon": 11.5819806
+            },
+            "Fragile": False,
+            "required_post_actions": "Please clean it after you use it",
+            "checked_at_return": "Wheels stability, cleanness, visual damage",
+            "status": "in lease",
+            "picture_before": "/img1.jpeg"
+        }
+    ]
+    return dummy_rented_items
 
 
 @app.route('/', methods=["GET"], strict_slashes=False)
