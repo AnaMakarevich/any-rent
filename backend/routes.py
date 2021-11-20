@@ -1,6 +1,10 @@
 import datetime
+import random
+import os
+import string
 
 from flask import jsonify, request
+from werkzeug.utils import secure_filename
 
 from app import create_app, db
 from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contract, Request
@@ -10,6 +14,27 @@ from models import User
 #from scclient import MyClientProtocol, run as run_client, queue
 
 app = create_app()
+
+
+def generate_filename(orig_filename):
+    ext = os.path.splitext(orig_filename)[1]
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=8)) + ext
+
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if len(request.files) == 1:
+        field, file = tuple(request.files.items())[0]
+        filename = generate_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return jsonify({
+            'status': 'OK',
+            'image_url': '/' + filename
+        })
+    return jsonify({
+        'status': 'error',
+        'image_url': None
+    })
 
 
 @app.route('/update_contract/<action>', methods=['POST'], strict_slashes=False)

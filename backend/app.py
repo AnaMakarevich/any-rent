@@ -27,4 +27,6 @@ def create_app():
     ma.init_app(app)
     cors.init_app(app)
 
+    app.config['UPLOAD_FOLDER'] = '../frontend/dist'
+
     return app
