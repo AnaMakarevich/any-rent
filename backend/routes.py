@@ -8,9 +8,24 @@ from models import Hackathon, hackathons_schema, hackathon_schema
 app = create_app()
 
 
+@app.route('/update_contract', methods=['POST'], strict_slashes=False)
+def update_contract():
+    uid = request.json['user_id']
+    contract_id = request.json['contract_id']
+    status = request.json['status']  # new status
+    # TODO: update contract status only if applicable. so, status e. g.:
+    # 'initial' -> 'pending' -> 'active' -> 'returned' -> 'completed'
+    #                                    -> 'complained'
+    #                                                  -> 'complained'
+
+
 @app.route('/confirm_request', methods=["POST"], strict_slashes=False)
 def confirm_request():
-    pass
+    uid = request.json['user_id']
+    request_id = request.json['request_id']
+    # TODO: set request status to confirmed
+    # TODO: create contract with "status": "initial"
+    return jsonify({'result': 'OK'})
 
 
 @app.route('/request_item', methods=["POST"], strict_slashes=False)
@@ -21,7 +36,9 @@ def request_item():
     # TODO: generate request test
     # TODO: send an email
     # TODO: create request item in the database
-    response = {"result": "OK"}
+    response = {
+        "request_id": 1,
+    }
     return jsonify(response)
 
 
