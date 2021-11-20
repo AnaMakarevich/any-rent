@@ -1,0 +1,39 @@
+.transactionListWrapper {
+  background-color: #f2f2f2;
+  padding: 2em;
+  border-radius: 0.5em;
+}
+.transactionListHeader {
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #cccccc;
+}
+
+.navLink {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.navLink:hover {
+  color: #3a7fef;
+}
+.navLink:active,
+.navLink::after {
+  text-decoration: none;
+}
+
+.transactionOverviewContainer {
+  background-color: #cccccc;
+  padding: 2em;
+  border-radius: 0.5em;
+  font-size: 600;
+}
+
+.dataIcon {
+  margin-right: 0.5em;
+}

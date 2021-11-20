@@ -1,0 +1,23 @@
+.profileDataCol {
+  padding: 2em;
+  border-radius: 0.5em;
+  background-color: #3a7fef;
+  color: white;
+  margin-bottom: 1em;
+}
+
+.dataIcon {
+  margin-right: 0.5em;
+}
+.coinIcon {
+  color: #efaa3a;
+}
+
+.colWrapperData {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.2em;
+  font-weight: 400;
+  padding: 0.1em;
+}

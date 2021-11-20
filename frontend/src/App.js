@@ -17,7 +17,10 @@ function App() {
           
           <Route index element={<HomeRoute />}/>
 
-          <Route path="item" element={<ItemRoute/>}/>
+          <Route path="item" element={<Outlet/>}>
+            <Route index element={<h4>Didnt insert any ItemId</h4>} />
+            <Route path=":itemId" element={<ItemRoute/>}/>
+          </Route>
           <Route path="rent-out" element={<RentOutRoute/>}/>
           <Route path="overview" element={<OverviewRoute/>}/>
           

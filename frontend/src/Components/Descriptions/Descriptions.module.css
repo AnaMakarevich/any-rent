@@ -1,0 +1,40 @@
+.wrapper {
+  padding-top: 1em;
+  width: 100%;
+  height: 100%;
+}
+
+.colWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1em;
+  color: rgba(0, 0, 0, 0.5);
+  padding-bottom: 0.5em;
+}
+
+.icon {
+  margin-right: 0.5em;
+}
+
+.descriptionTextContainer {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 1em;
+}
+
+.bottomWrapper {
+  background-color: #f2f2f2;
+  padding: 0.5em 0.5em 10em 0.5em;
+
+  border-radius: 0.5em;
+}
+
+.bottomTitle {
+  /* background-color: rebeccapurple; */
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.1em;
+  text-align: center;
+  cursor: pointer;
+}
