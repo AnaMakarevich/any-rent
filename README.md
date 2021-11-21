@@ -18,17 +18,18 @@ And finally there is Amy and Mark who live on the same street. They don't know e
 
 ### Key features 
 - Users can rent from each other paying by coins  
-- Users have standardized contracts with conditions stored in transactions
 - No actual money involved - the system is based on trust 
-- All the changes to the item are recorded in the blockchain 
+- [F] All the changes to the item are recorded in the blockchain 
+- [F] Users can co-own items using smart contracts and sheduling
+- [F] Users have standardized contracts with conditions stored in transactions
 
 
 ## How we built it
 We used Flask for the REST API and React for the frontend. We also set up the environment for smart contracts, but unfortunately we didn't have time to fully implement it.
 
 ## Challenges we ran into
-For us as a team it was very hard to come up with the idea and formulate it nicely. For a long time we were stuck with "everything is already implemented", but then we had the 'a-ha' moment 
-The biggest challenge for us was also not to sleep for such a long time.  
+For us as a team it was very hard to come up with the idea and formulate it nicely. For a long time we were stuck with "everything is already implemented", but then we had the 'a-ha' moment. 
+The biggest challenge for us was also not to sleep for such a long time. 
 
 ## Accomplishments that we're proud of
 We are proud of the speed of interaction that we've achieved. We are also proud that we implemented so much in a limited time. Of course, it never feels enough, but we think we did quite a lot.
@@ -37,4 +38,4 @@ We are proud of the speed of interaction that we've achieved. We are also proud 
 Basics of blockchain and teamwork at the speed of light. 
 
 ## What's next for AnyRent
-Fully implementing smart contracts and co-ownership.
+Implementing smart contracts and co-ownership.
