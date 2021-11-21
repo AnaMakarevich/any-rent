@@ -81,3 +81,8 @@
 .coinIcon {
   margin-right: 0.25em;
 }
+
+.modalInputContainer {
+  display: flex;
+  flex-direction: column;
+}

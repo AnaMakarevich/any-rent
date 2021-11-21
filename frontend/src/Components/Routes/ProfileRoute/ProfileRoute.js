@@ -12,6 +12,7 @@ import styles from './ProfileRoute.module.css';
 
 import ProfileData from './ProfileData';
 import TransactionsList from '../../TransactionsList/TransactionsList';
+import OpenTransactionsList from '../../TransactionsList/OpenTransactionsList';
 
 export default function ProfileRoute() {
     let navigate = useNavigate();
@@ -19,8 +20,9 @@ export default function ProfileRoute() {
     const [pageLoading, setPageLoading] = useState(true);
     const [consumerTransactionsLoading, setConsumerTransactionsLoading] = useState(true);
     const [providerTransactionsLoading, setProviderTransactionsLoading] = useState(true);
-    const [consumerTransactions, setConsumerTransactions] = useState(true);
-    const [providerTransactions, setProviderTransactions] = useState(true);
+    const [consumerTransactions, setConsumerTransactions] = useState([]);
+    const [providerTransactions, setProviderTransactions] = useState([]);
+    const [openRequests, setOpenRequests] = useState([]);
 
     const isAlreadyLoggedIn = useSelector(isLoggedInSelector); 
     const {
@@ -36,13 +38,14 @@ export default function ProfileRoute() {
     } = useSelector(userSelector);
 
 
-
+    // Auth redirect
     useEffect(() => {
         if(!isAlreadyLoggedIn){
             navigate("../login", {replace: true});
         }
     }, [isAlreadyLoggedIn])
 
+    // Fetch Profile Data
     useEffect(() => {
         if(isAlreadyLoggedIn){
             setPageLoading(true);
@@ -55,6 +58,7 @@ export default function ProfileRoute() {
         }
     }, [setPageLoading, userId, isAlreadyLoggedIn])
 
+    // Fetch Consumer Transactions
     useEffect(() =>  {
         if(isAlreadyLoggedIn){
             setConsumerTransactionsLoading(true);
@@ -66,23 +70,43 @@ export default function ProfileRoute() {
             setConsumerTransactionsLoading(false);
         }
     }, [userId, isAlreadyLoggedIn])
+    
+    // Fetch Provider Transactions
+    useEffect(() =>  {
+        if(isAlreadyLoggedIn){
+            setProviderTransactionsLoading(true);
 
+            APIService.GetUserRunningProviderContracts(userId)
+                .then(data => setProviderTransactions(data))
+                .catch(error => console.log('error',error))
+ 
+            setProviderTransactionsLoading(false);
+        }
+    }, [userId, isAlreadyLoggedIn])
+    
+    // Fetch Requests by other Consumers
+    useEffect(() =>  {
+        if(isAlreadyLoggedIn){
+            APIService.GetRequestsMadeToUser(userId)
+                .then(data => setOpenRequests(data))
+                .catch(error => console.log('error',error))
+        }
+    }, [userId, isAlreadyLoggedIn])
 
-
-    const onLogoutHandler = () => {
-        dispatch(logOut());
-    }
 
     return (
-        <Container>
-            <Row >
+        <Container className="pb-5 mb-5">
+            <Row className="">
                 <Col lg={6} className={styles.profileDataCol}>
                     <ProfileData firstName={firstName} lastName={lastName} coinsAmount={coinsAmount} succesfulReturns={succesfulReturns} contractsCountConsumer={contractsCountConsumer} contractsCountProvider={contractsCountProvider}/>
                 </Col>
                 <Col lg={6} className={styles.colWrapper}>
                     <TransactionsList profileIsConsumer={true} transactions={consumerTransactions}/>
-                    {/* <TransactionsList userIsConsumer={false} transactions={providerTransactions}/> */}
+                    <TransactionsList profileIsConsumer={false} transactions={providerTransactions}/>
                 </Col>
+            </Row>
+            <Row>
+                <OpenTransactionsList transactions={openRequests} title="Open Rent-Requests"/>
             </Row>
         </Container>
     )

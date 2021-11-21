@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 // Styling
 import styles from './NavBar.module.css';
 import colors from '../../styling/colors';
@@ -11,6 +11,7 @@ import { isLoggedInSelector, logOut } from '../../slices/profileSlice';
 const NavLinkWrapper = () => {
     const isAlreadyLoggedIn = useSelector(isLoggedInSelector); 
     const dispatch = useDispatch();
+
 
     const onLogOut = () => dispatch(logOut());
 
@@ -31,11 +32,12 @@ const NavLinkWrapper = () => {
 export default function NavBar() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [showPhoneNav, setShowPhoneNav] = useState(false);
+    let navigate = useNavigate();
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>
-                <img src={logo} className={styles.logo} alt="logo"/>
+                <img src={logo} className={styles.logo} alt="logo" onClick={()=> navigate("../")}/>
                 <div className={styles.actionsContainer}>
                     <NavLinkWrapper />
                 </div>

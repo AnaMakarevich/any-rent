@@ -8,6 +8,15 @@ export const parseDate = (date) => {
 
 }
 
+
+export const transformDateForDB = (date) => {
+    let dateObj = new Date(date);
+
+    // return dateObj.toLocaleDateString();    
+    return dateObj.toISOString().split(".")[0];
+
+}
+
 // Only userId stored
 
 export const saveUserIdLocalStorage = (state) => {

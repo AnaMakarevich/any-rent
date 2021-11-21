@@ -2,6 +2,7 @@
   background-color: #f2f2f2;
   padding: 2em;
   border-radius: 0.5em;
+  margin-bottom: 0.5em;
 }
 .transactionListHeader {
   padding-bottom: 0.5em;
@@ -36,4 +37,8 @@
 
 .dataIcon {
   margin-right: 0.5em;
+}
+
+.confirmRequestDescription {
+  font-size: 0.8em;
 }

@@ -15,10 +15,12 @@ import { BACKEND_BASE_URL } from '../../../constants';
 import Loading from '../../UI/Loading/Loading';
 import DescriptionWrapper from '../../Descriptions/DescriptionWrapper';
 import { useSelector } from 'react-redux';
-import { isLoggedInSelector } from '../../../slices/profileSlice';
+import { isLoggedInSelector, userIdSelector } from '../../../slices/profileSlice';
+import { parseDate, transformDateForDB } from '../../../utils';
 
 
 export default function ProductRoute() {
+    const userId = useSelector(userIdSelector)
     const {itemId} = useParams();
     const [item, setItem] = useState(null);
     const [loading,setLoading] = useState(true);
@@ -26,6 +28,8 @@ export default function ProductRoute() {
     const [modalMessage, setModalMessage] = useState("");
     const [modalLoading, setModalLoading] = useState(false);
     const [rentRequestPerformed, setRentRequestPerformed] = useState(false);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const isAlreadyLoggedIn = useSelector(isLoggedInSelector); 
     let navigate = useNavigate();
 
@@ -45,7 +49,7 @@ export default function ProductRoute() {
 
     const onSubmitModalMessage = () => {
         setModalLoading(true);
-        APIService.PostRentRequest({user_id:1, item_id:item.id, text:modalMessage})
+        APIService.PostRentRequest({uid:userId, item_id:item.id, text:modalMessage, start_date:transformDateForDB(startDate), end_date:transformDateForDB(endDate)})
             .then(data => {
                 if(data.request_id && data.request_id > 0){
                    setRentRequestPerformed(true);
@@ -60,6 +64,8 @@ export default function ProductRoute() {
     const onCloseModal = () => setShowModal(false);
     const onOpenModal =  () => setShowModal(true);
 
+
+    const modalSubmitEnabled = startDate && endDate && modalMessage.length > 0
 
     if(loading){
         return (
@@ -114,9 +120,20 @@ export default function ProductRoute() {
                     {!modalLoading && !rentRequestPerformed && (
                         <Container>
                             Contact the Consumer
-                            <div className="mt-2">
+                            <div className="mt-2 mb-2">
                                 <textarea className="form-control" value={modalMessage} onChange={(event)=>setModalMessage(event.target.value)}/>
                             </div>
+                            <Row>
+                                <Col sm={6} className={styles.modalInputContainer}>
+                                    <label>Start</label>
+                                    <input type="date" onChange={(event) => setStartDate(event.target.value)}/>
+                                </Col>
+                                <Col sm={6} className={styles.modalInputContainer}>
+                                    <label>End</label>
+                                    <input type="date" onChange={(event) => setEndDate(event.target.value)}/>
+                                </Col>
+                            </Row>
+
                         </Container>
                     )}
                     {modalLoading && (
@@ -135,7 +152,7 @@ export default function ProductRoute() {
                     Close
                 </Button>
                 {!rentRequestPerformed && (
-                    <Button variant="primary" onClick={onSubmitModalMessage}>
+                    <Button variant="primary" onClick={onSubmitModalMessage} disabled={!modalSubmitEnabled}>
                         Submit
                     </Button>
                 )}

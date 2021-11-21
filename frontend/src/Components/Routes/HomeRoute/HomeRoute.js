@@ -9,7 +9,12 @@ import Loading from '../../UI/Loading/Loading';
 import Container from 'react-bootstrap/Container';
 // Styles
 import styles from './HomeRoute.module.css';
-import { Col, Row } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button'
+import FormControl from 'react-bootstrap/FormControl'
+import InputGroup from 'react-bootstrap/InputGroup'
 import { BsCoin } from "react-icons/bs";
 import { useNavigate } from 'react-router';
 
@@ -97,6 +102,42 @@ export default function HomeRoute() {
                     <Col md={4} >
                         <div className={styles.filterContainer}>
                             <h4>Filters</h4>
+                            <label>Query</label>
+                            <InputGroup className="mb-3">
+                                <Button variant="outline-secondary" id="button-addon1">
+                                Search
+                                </Button>
+                                <FormControl
+                                aria-label="Example text with button addon"
+                                aria-describedby="basic-addon1"
+                                />
+                            </InputGroup>
+
+                            <label>Sort by</label>
+                            <Dropdown className="w-100">
+                                <Dropdown.Toggle className="w-100" variant="secondary" id="dropdown-basic">
+                                    Select Button
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className="w-100">
+                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+
+                            <label>Category</label>
+                            <Dropdown className="w-100">
+                                <Dropdown.Toggle className="w-100" variant="secondary" id="dropdown-basic">
+                                    Select Button
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className="w-100">
+                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
                     </Col>
                     <Col md={8}>
