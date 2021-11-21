@@ -65,7 +65,7 @@ export default function ProductRoute() {
     const onOpenModal =  () => setShowModal(true);
 
 
-    const modalSubmitEnabled = startDate && endDate && modalMessage.length > 0
+    const modalSubmitEnabled = startDate && endDate && modalMessage && modalMessage.length > 0
 
     if(loading){
         return (
@@ -74,7 +74,7 @@ export default function ProductRoute() {
             </div>
         )
     }
-    if(!item) return <h2>Item is not existing</h2>
+    if(!item) return <h2></h2>
 
     return (
         <Container>

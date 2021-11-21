@@ -22,7 +22,7 @@ const ListItem = ({id, image, date, coinAmount, title, description}) => {
     let navigate = useNavigate();
 
     const shortenDescription = () => {
-        if(description.length > 100){
+        if(description && description.length > 100){
             description = description.substring(0,100) + "...";
         }
         return description;
@@ -79,7 +79,7 @@ export default function HomeRoute() {
     }
 
     const displayListingComponents = () => {
-        if (items.length > 0){
+        if (items && items.length > 0){
             return items.map(item => (
                 <ListItem
                     id={item.id}

@@ -73,8 +73,8 @@ export default function OpenTransactionsList({title, transactions}) {
     return (
         <div className={styles.transactionListWrapper}>
             <h3 className={styles.transactionListHeader}>{title}</h3>
-            {transactions.length == 0 && <p>No Pending Requests</p>}
-            {transactions.length > 0 && transactions.map(item => <OpenTransactionItem transaction={item} profileIsConsumer={false}/>)}
+            {!transactions || transactions.length == 0 && <p>No Pending Requests</p>}
+            {transactions && transactions.length > 0 && transactions.map(item => <OpenTransactionItem transaction={item} profileIsConsumer={false}/>)}
         </div>
     )
 }

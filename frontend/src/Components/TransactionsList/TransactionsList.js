@@ -90,8 +90,8 @@ export default function TransactionsList({profileIsConsumer, transactions}) {
     return (
         <div className={styles.transactionListWrapper}>
             <h3 className={styles.transactionListHeader}>{type}-Transactions</h3>
-            {transactions.length == 0 && <p>No Transactions found</p>}
-            {transactions.length > 0 && transactions.map(item => <TransactionItem transaction={item} profileIsConsumer={profileIsConsumer}/>)}
+            {!transactions || transactions.length == 0 && <p>No Transactions found</p>}
+            {transactions && transactions.length > 0 && transactions.map(item => <TransactionItem transaction={item} profileIsConsumer={profileIsConsumer}/>)}
         </div>
     )
 }
