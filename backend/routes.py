@@ -106,12 +106,12 @@ def item_requests(uid):
 def request_item():
     """Implements making request to the provider of the item"""
     item = db.session.query(Item).get(request.json['item_id'])
-    provider_id = item.provider_id
-    req = Request(item=request.json['item_id'],
+    provider_id = item.owner_id
+    req = Request(item_id=request.json['item_id'],
                   consumer_id=request.json['uid'],
                   provider_id=provider_id,
-                  start_date=request.json['start_date'],
-                  end_date=request.json['end_date'],
+                  start_date=datetime.datetime.fromisoformat(request.json['start_date']),
+                  end_date=datetime.datetime.fromisoformat(request.json['end_date']),
                   date_added=datetime.datetime.utcnow(),
                   text=request.json['text'],
                   confirmed=False)
