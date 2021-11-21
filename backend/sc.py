@@ -1,42 +1,56 @@
 from pyledger.server.contract import SimpleContract
 
-class DigitalCurrency(SimpleContract):
-    accounts = {}
+class AnyRent(SimpleContract):
+    users = {}
+    items = {}
+    contracts = {}
 
-    def add_account(self, key: str):
-        if key in self.accounts:
-            raise Exception('Account already exists')
+    def add_user(self, user: dict):
+        uid = user['id']
+        if uid in self.users:
+            raise Exception('User already exists')
 
-        self.accounts[key] = 0.0
-        return key
+        self.users[uid] = user
+        return uid
 
-    def increment(self, key: str, quantity: float):
-        if key not in self.accounts:
-            raise Exception('Account not found')
+    def add_item(self, item: dict):
+        iid = item['id']
+        if iid in self.items:
+            raise Exception('Item already exists')
 
-        self.accounts[key] += quantity
+        self.items[iid] = item
+        return iid
 
-    def transfer(self, source: str, dest: str, quantity: float):
-        if source not in self.accounts:
-            raise Exception('Source account not found')
-        if dest not in self.accounts:
-            raise Exception('Destination account not found')
-        if self.accounts[source] < quantity:
-            raise Exception('Not enough funds in source account')
-        if quantity < 0:
-            raise Exception('You cannot transfer negative currency')
+    def add_contract(self, c: dict):
+        cid = c['id']
+        if cid in self.contracts:
+            raise Exception('Contract already exists')
 
-        self.accounts[source] -= quantity
-        self.accounts[dest] += quantity
+        self.contracts[cid] = c
+        return cid
 
-    def balance(self, key: str):
-        if key not in self.accounts:
-            print(self.accounts)
-            raise Exception('Account not found')
+    def get_user(self, uid: int):
+        if uid not in self.accounts:
+            raise Exception('User not found')
 
-        return str(self.accounts[key])
+        return self.users[uid]
+
+    def get_item(self, iid: int):
+        if iid not in self.items:
+            raise Exception('Item not found')
+
+        return self.items[iid]
+
+    def get_contract(self, cid: int):
+        if cid not in self.contracts:
+            raise Exception('Contract not found')
+
+        return self.contracts[cid]
+
+    def get_contracts(self):
+        return self.contracts
 
 
 if __name__ == '__main__':
     from pyledger.server import run
-    run(DigitalCurrency)
+    run(AnyRent)

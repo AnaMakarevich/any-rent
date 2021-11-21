@@ -4,10 +4,10 @@ from flask import jsonify, request
 
 from app import create_app, db
 from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contract, Request
-from serializers import user_schema, items_schema, item_schema, contracts_schema, requests_schema, \
-    request_schema
+from serializers import user_schema, items_schema, item_schema, contract_schema, contracts_schema, \
+    requests_schema, request_schema
 from models import User
-#from scclient import MyClientProtocol, run as run_client, queue
+from scclient import MyClientProtocol, run as run_client, queue
 
 app = create_app()
 
@@ -49,6 +49,8 @@ def update_contract(action):
             provider.complaints += 1
         print("The complaint was registered. The money will be transferred to your account")
     db.session.commit()
+    updated_contract = contract_schema.dump(contract)
+    call_blockchain('add_contract', c=contract_schema.dump(updated_contract))
 
     # TODO: update contract status only if applicable. so, status e. g.:
     # 'initial' -> 'pending' -> 'active' -> 'returned' -> 'completed'
@@ -81,6 +83,7 @@ def confirm_request():
         provider_confirmed_return=None,
         consumer_confirmed_return=None
     )
+    call_blockchain('add_contract', c=contract_schema.dump(new_contract))
     db.session.add(new_contract)
     db.session.commit()
     return jsonify({'result': 'OK'})
@@ -209,6 +212,11 @@ def borrowed_items(uid):
     return jsonify(items_)
 
 
+@app.route('/blockchain')
+def get_blockchain():
+    return jsonify(call_blockchain('get_contracts'))
+
+
 @app.route('/', methods=["GET"], strict_slashes=False)
 def index():
     return "<h1>Hello</h1>"
@@ -241,7 +249,7 @@ def add_hackathon():
     db.session.commit()
     return hackathon_schema.jsonify(hackathon)
 
-""""@app.route('/test')
+@app.route('/test')
 def test_endpoint():
     contract = 'DigitalCurrency'
     method = 'balance'
@@ -252,6 +260,12 @@ def test_endpoint():
     return jsonify({
         'response': response
     })
+
+
+def call_blockchain(method, **kwargs):
+    contract = 'AnyRent'
+    return MyClientProtocol.call(contract, method, **kwargs)
+
 
 
 def run_scclient():
@@ -267,8 +281,8 @@ def run_scclient():
     t.start()
 
 
-#run_scclient()
+run_scclient()
 
-"""
+
 if __name__ == "__main__":
     app.run(debug=True)
