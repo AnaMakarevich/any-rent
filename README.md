@@ -1,4 +1,5 @@
-# AnyRent: Peer-to-peer rental and shared ownership service
+# AnyRent: Peer-to-peer rental and shared ownership service - 1st place in the City of Munich track at hackaTUM!
+
 The project was created during the hackaTUM 2021. 
 Devpost link: https://devpost.com/software/anyrent
 
