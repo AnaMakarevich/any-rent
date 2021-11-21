@@ -1,4 +1,6 @@
 # AnyRent: Peer-to-peer rental and shared ownership service
+The project was created during the hackaTUM 2021. 
+Devpost link: https://devpost.com/software/anyrent
 
 ## Inspiration
 A lot of effort has been made to reduce the carbon footprint. Buying local, eating less meat, choosing reusable packaging - many steps were made already towards being greener. There are also a lot of technical solutions that aim to improve sustainability. However, it's not enough. The key problem, which is the root of this evil, is overconsumption. As it was said in the World Economic Forum [[1]](https://www.weforum.org/agenda/2020/07/affluence-bigger-threat-than-coronavirus-scientists-capitalism/):
