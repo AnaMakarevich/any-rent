@@ -97,7 +97,8 @@ def get_item_request(request_id):
 @app.route('/item_requests/<uid>')
 def item_requests(uid):
     """Returns all the requests made to the user with the given user id"""
-    reqs = db.session.query(Request).filter_by(provider_id=uid, confirmed=False)
+    reqs = db.session.query(Request).filter_by(
+        provider_id=uid, confirmed=False)
     reqs_ = requests_schema.dump(reqs)
     return jsonify(reqs_)
 
@@ -110,8 +111,10 @@ def request_item():
     req = Request(item_id=request.json['item_id'],
                   consumer_id=request.json['uid'],
                   provider_id=provider_id,
-                  start_date=datetime.datetime.fromisoformat(request.json['start_date']),
-                  end_date=datetime.datetime.fromisoformat(request.json['end_date']),
+                  start_date=datetime.datetime.fromisoformat(
+                      request.json['start_date']),
+                  end_date=datetime.datetime.fromisoformat(
+                      request.json['end_date']),
                   date_added=datetime.datetime.utcnow(),
                   text=request.json['text'],
                   confirmed=False)
@@ -180,7 +183,8 @@ def user_account(uid):
 @app.route('/running_provider_contracts/<uid>')
 def running_provider_contracts(uid):
     """Contract items for the user with this id"""
-    contracts = Contract.query.filter_by(provider_id=uid)
+    contracts = Contract.query.filter(
+        Contract.provider_id == uid, Contract.status != "completed")
     contracts_ = contracts_schema.dump(contracts)
     return jsonify(contracts_)
 
@@ -188,7 +192,8 @@ def running_provider_contracts(uid):
 @app.route('/running_consumer_contracts/<uid>')
 def running_consumer_contracts(uid):
     """Contract items for the user with this id"""
-    contracts = Contract.query.filter_by(consumer_id=uid)
+    contracts = Contract.query.filter(
+        Contract.consumer_id == uid, Contract.status != "completed")
     contracts_ = contracts_schema.dump(contracts)
     return jsonify(contracts_)
 
@@ -246,6 +251,7 @@ def add_hackathon():
     db.session.commit()
     return hackathon_schema.jsonify(hackathon)
 
+
 @app.route('/test')
 def test_endpoint():
     contract = 'DigitalCurrency'
@@ -261,6 +267,7 @@ def test_endpoint():
 
 def run_scclient():
     import threading
+
     def thread():
         import asyncio
         loop = asyncio.new_event_loop()
@@ -272,7 +279,7 @@ def run_scclient():
     t.start()
 
 
-#run_scclient()
+# run_scclient()
 
 if __name__ == "__main__":
     app.run(debug=True)

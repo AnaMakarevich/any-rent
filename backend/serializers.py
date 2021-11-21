@@ -53,7 +53,7 @@ class RequestSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Request
         fields = ('id', 'item', 'provider', 'consumer', 'start_date',
-                  'end_date', 'date_added', ' text', 'confirmed')
+                  'end_date', 'date_added', 'text', 'confirmed')
         include_fk = True
 
     item = ma.Nested(ItemSchema)
