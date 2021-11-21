@@ -1,6 +1,6 @@
 import datetime
 
-from flask import jsonify, request
+from flask import jsonify, request, send_from_directory
 
 from app import create_app, db
 from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contract, Request
@@ -219,7 +219,7 @@ def get_blockchain():
 
 @app.route('/', methods=["GET"], strict_slashes=False)
 def index():
-    return "<h1>Hello</h1>"
+    return send_from_directory('../frontend/dist', 'index.html')
 
 
 @app.route('/hackathons', methods=["GET"], strict_slashes=False)
