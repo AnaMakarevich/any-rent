@@ -7,7 +7,7 @@ from models import Hackathon, hackathons_schema, hackathon_schema, Item, Contrac
 from serializers import user_schema, items_schema, item_schema, contracts_schema, requests_schema, \
     request_schema
 from models import User
-#from scclient import MyClientProtocol, run as run_client, queue
+from scclient import MyClientProtocol, run as run_client, queue
 
 app = create_app()
 
@@ -105,16 +105,21 @@ def item_requests(uid):
 @app.route('/request_item', methods=["POST"], strict_slashes=False)
 def request_item():
     """Implements making request to the provider of the item"""
-    uid = request.json['user_id']
-    item_id = request.json['item_id']
-    text = request.json['text']
-    # TODO: generate request test
-    # TODO: send an email
-    # TODO: create request item in the database
-    response = {
-        "request_id": 1,
-    }
-    return jsonify(response)
+    item = db.session.query(Item).get(request.json['item_id'])
+    provider_id = item.provider_id
+    req = Request(item=request.json['item_id'],
+                  consumer_id=request.json['uid'],
+                  provider_id=provider_id,
+                  start_date=request.json['start_date'],
+                  end_date=request.json['end_date'],
+                  date_added=datetime.datetime.utcnow(),
+                  text=request.json['text'],
+                  confirmed=False)
+    db.session.add(req)
+    db.session.commit()
+    return jsonify({
+        "response": "OK",
+    })
 
 
 @app.route('/items/<item_id>', defaults={"uid": None})
@@ -159,14 +164,14 @@ def add_item(uid):
 @app.route('/user_profile/<uid>')
 def user_profile(uid):
     """The profile of some user shown to everyone logged in"""
-    user = User.query.filter_by(id=1)[0]
+    user = User.query.filter_by(id=uid)[0]
     user_profile_ = user_schema.dump(user)
     return jsonify(user_profile_)
 
 
 @app.route('/account/<uid>')
 def user_account(uid):
-    user = User.query.filter_by(id=1)[0]
+    user = User.query.filter_by(id=uid)[0]
     user_profile_ = user_schema.dump(user)
     """The account of the logged in user with uid"""
     return jsonify(user_profile_)
@@ -241,7 +246,7 @@ def add_hackathon():
     db.session.commit()
     return hackathon_schema.jsonify(hackathon)
 
-""""@app.route('/test')
+@app.route('/test')
 def test_endpoint():
     contract = 'DigitalCurrency'
     method = 'balance'
@@ -269,6 +274,5 @@ def run_scclient():
 
 #run_scclient()
 
-"""
 if __name__ == "__main__":
     app.run(debug=True)
