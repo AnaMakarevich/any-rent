@@ -75,7 +75,7 @@ def confirm_request():
         item_id=req.item_id,
         start_date=req.start_date,
         end_date=req.end_date,
-        statue="initial",
+        status="initial",
         picture_after=None,
         closed_on=None,
         provider_confirmed_return=None,
