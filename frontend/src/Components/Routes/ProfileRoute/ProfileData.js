@@ -14,13 +14,13 @@ export default function ProfileData({firstName, lastName, coinsAmount, succesful
                     <BsCoin className={`${styles.coinIcon} ${styles.dataIcon}`}/> {coinsAmount}
                 </Col>
                 <Col sm={6} lg={12} xl={6} className={styles.colWrapperData}>
-                    <IoShieldCheckmark className={styles.dataIcon}/> {succesfulReturns} Succesful Returns
+                    <IoShieldCheckmark className={styles.dataIcon}/> {succesfulReturns} succesful returns
                 </Col>
                 <Col sm={6} lg={12} xl={6} className={styles.colWrapperData}>
-                    <IoArrowBackCircle className={styles.dataIcon}/> {contractsCountConsumer} Items consumed
+                    <IoArrowBackCircle className={styles.dataIcon}/> {contractsCountConsumer} items borrowed from others
                 </Col>
                 <Col sm={6} lg={12} xl={6} className={styles.colWrapperData}>
-                    <IoArrowForwardCircle className={styles.dataIcon}/> {contractsCountProvider} Items borrowed
+                    <IoArrowForwardCircle className={styles.dataIcon}/> {contractsCountProvider} items borrowed to others
                 </Col>
             </Row>
         </React.Fragment>

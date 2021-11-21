@@ -14,7 +14,7 @@ export const Description = ({providerName, text, date, isFragile}) => {
                     <IoPersonCircle className={styles.icon}/>{providerName}
                 </Col>
                 <Col xs={6} md={3} className={styles.colWrapper}>
-                    <IoLocationSharp className={styles.icon}/>34km
+                    <IoLocationSharp className={styles.icon}/>4km
                 </Col>
                 <Col xs={6} md={3} className={styles.colWrapper}>
                     <IoTime className={styles.icon}/>Since {parseDate(date)}

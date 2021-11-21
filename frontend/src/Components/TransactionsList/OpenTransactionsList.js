@@ -15,7 +15,7 @@ import { userIdSelector } from '../../slices/profileSlice';
 
 const OpenTransactionItem = ({transaction}) => {
     const userId = useSelector(userIdSelector);
-    const [showOverview, setShowOverview] = useState(false);
+    const [showOverview, setShowOverview] = useState(true);
     const [updatedStatus, setUpdatedStatus] = useState(null);
     const [showTransaction, setShowTransaction] = useState(true);
     let navigate = useNavigate();
@@ -39,30 +39,35 @@ const OpenTransactionItem = ({transaction}) => {
 
     return (
         <React.Fragment>
-            <a className={styles.navLink} onClick={() => setShowOverview(prev => !prev)}>{transaction.item.name}</a>
-            {showOverview && (
-                <div className={styles.transactionOverviewContainer}>
-                    <Row className="mb-4">
-                        <Col xs={6} className="d-flex align-items-center">
-                            <IoPersonCircle className={styles.dataIcon}/> {transaction.consumer.first_name} {transaction.consumer.last_name}
-                        </Col>
-                        <Col xs={6} className="d-flex align-items-center">
-                            <IoShieldCheckmark className={styles.dataIcon}/> {transaction.consumer.successful_returns} Succesful Returns
-                        </Col>
-                        <Col xs={6} className="d-flex align-items-center">
-                            <IoBan className={styles.dataIcon}/> {transaction.consumer.successful_returns} Complains
-                        </Col>
-                    </Row>
-                    <div className="d-flex justify-content-end align-items-end flex-column">
-                    <div className="d-flex justify-content-end align-items-center">
-                        <Button variant="secondary" style={{marginRight: "0.5em"}} size="sm" onClick={onClickViewItem}>View Item</Button>
-                        <Button size="sm" onClick={onConfirmRequest}>Confirm Request</Button>
-                    </div>
-                        <label className={styles.confirmRequestDescription}>We will share your contact data with the Consumer.</label>
-                    </div>
+            <div>
+                <a className={styles.navLink} onClick={() => setShowOverview(prev => !prev)}>{transaction.item.name}, from {transaction.consumer.first_name}</a>
+                {showOverview && (
+                    <div className={styles.transactionOverviewContainer}>
+                        <Row className="mb-4">
+                            <Col xs={6} className="d-flex align-items-center">
+                                <IoPersonCircle className={styles.dataIcon}/> {transaction.consumer.first_name} {transaction.consumer.last_name}
+                            </Col>
+                            <Col xs={6} className="d-flex align-items-center">
+                                <IoShieldCheckmark className={styles.dataIcon}/> {transaction.consumer.successful_returns} Succesful Returns
+                            </Col>
+                            <Col xs={6} className="d-flex align-items-center">
+                                <IoBan className={styles.dataIcon}/> {transaction.consumer.successful_returns} Complains
+                            </Col>
+                            <Col xs={12} className="d-flex align-items-center">
+                                {transaction.text}
+                            </Col>
+                        </Row>
+                        <div className="d-flex justify-content-end align-items-end flex-column">
+                        <div className="d-flex justify-content-end align-items-center">
+                            <Button variant="secondary" style={{marginRight: "0.5em"}} size="sm" onClick={onClickViewItem}>View Item</Button>
+                            <Button size="sm" onClick={onConfirmRequest}>Confirm Request</Button>
+                        </div>
+                            <label className={styles.confirmRequestDescription}>We will share your contact data with the Consumer.</label>
+                        </div>
 
-                </div>
+                    </div>
             )}
+            </div>
         </React.Fragment>
     );
 }

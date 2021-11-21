@@ -1,4 +1,4 @@
-export const useReturnsTemplate = (requiredPostActions, checkedAtReturn) => `
+export const useReturnsTemplate = (requiredPostActions, checkedAtReturn, kaution) => `
 **Rental Conditions** 
 
 You can read the full rental contract here (link to PDF)
@@ -14,7 +14,7 @@ You can read the full rental contract here (link to PDF)
 - You agree to take care about the rented item and follow standard handling instructions for the item.
 - You agree not to expose the rented item to damage
 - You agree not to rent out this item to anyone
-- You agree that in case of damage you are obliged to pay the provider up to {display kaution}, depending on the damage done.
+- You agree that in case of damage you are obliged to pay the provider up to ${kaution}EUR, depending on the damage done.
 - You agree that in case the item is not returned on time and the contract is not prolonged, your personal data is shared with the provider, such that they can take measures. In this case your account will be suspended and you will not be able to rent anything.
 - In case of disagreement a third-party might be invited
 

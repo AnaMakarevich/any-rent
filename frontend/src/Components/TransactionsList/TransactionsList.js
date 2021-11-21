@@ -22,12 +22,23 @@ const TransactionItem = ({transaction, profileIsConsumer}) => {
     const onClickViewItem = () => navigate(`../item/${transaction.item.id}`)
 
     const onConfirmReturn = () => {
+        
         let body = {contract_id: transaction.id, user_id: userId}
         let action = profileIsConsumer ? "consumer_confirm_return" : "provider_confirm_return";
         APIService.UpdateContract(action, body)
             .then(data => setUpdatedStatus(data.status))
             .catch(error => console.log('error', error))
     }
+
+    const onConfirmTransfer = () => {
+        
+        let body = {contract_id: transaction.id, user_id: userId}
+        let action = profileIsConsumer ? "consumer_confirm_transfer" : "provider_confirm_transfer";
+        APIService.UpdateContract(action, body)
+            .then(data => setUpdatedStatus(data.status))
+            .catch(error => console.log('error', error))
+    }
+
 
     const profileAlreadyConfirmedReturn = (profileIsConsumer && transaction.consumer_confirmed_return) || (!profileIsConsumer && transaction.provider_confirmed_return);
 
@@ -36,13 +47,13 @@ const TransactionItem = ({transaction, profileIsConsumer}) => {
 
         if(profileIsConsumer){
             if(transaction.provider_confirmed_return){
-                result = "Provider confirmed Return";
+                result = "Provider confirmed return";
             } else {
                 result = "Confirmation pending";
             }
         } else {
             if(transaction.provider_confirmed_return){
-                result = "Consumer confirmed Return";
+                result = "Consumer confirmed return";
             } else {
                 result = "Confirmation pending";
             }
@@ -51,10 +62,11 @@ const TransactionItem = ({transaction, profileIsConsumer}) => {
         return result;
     }
 
+    const headerTitle = profileIsConsumer ? `${transaction.item.name}, borrowed to ${transaction.provider.first_name}` : `${transaction.item.name}, borrowed to ${transaction.consumer.first_name}`
 
     return (
-        <React.Fragment>
-            <a className={styles.navLink} onClick={() => setShowOverview(prev => !prev)}>{transaction.item.name}</a>
+        <div>
+            <a className={styles.navLink} onClick={() => setShowOverview(prev => !prev)}>{transaction.item.name}, borrowed from {transaction.provider.first_name}</a>
             {showOverview && (
                 <div className={styles.transactionOverviewContainer}>
                     <Row className="mb-4">
@@ -69,27 +81,35 @@ const TransactionItem = ({transaction, profileIsConsumer}) => {
                         </Col>
                         <Col xs={6} className="d-flex align-items-center">
                             <IoCalendarNumber className={styles.dataIcon}/> 
-                            Status {updatedStatus ? capitalizeString(updatedStatus) : capitalizeString(transaction.status)}
+                            Status {updatedStatus ? capitalizeString(updatedStatus) : transaction.status}
+                        </Col>
+                        <Col xs={6} className="d-flex align-items-center">
+                            <IoCalendarNumber className={styles.dataIcon}/> 
+                            
+                            {profileIsConsumer ? `Provided by ${transaction.provider.first_name}` : `Rented to ${transaction.consumer.first_name}`}
                         </Col>
                     </Row>
                     <div className="d-flex justify-content-end align-items-center">
                     <Button size="sm" variant="secondary" onClick={onClickViewItem} style={{marginRight: "0.5em"}}>View Item</Button>
                     <Button size="sm" variant="secondary" onClick={() => {}} style={{marginRight: "0.5em"}}>Upload Image</Button>
-                    {!profileAlreadyConfirmedReturn && transaction.status != "completed" && <Button size="sm" onClick={onConfirmReturn}>Confirm Return</Button>}
+                    {!profileAlreadyConfirmedReturn && transaction.status == "active" || transaction.status == "returned" && <Button size="sm" onClick={onConfirmReturn}>Confirm Return</Button>}
+                    {(transaction.status == "pending"|| transaction.status =="initial" ) && <Button size="sm" onClick={onConfirmTransfer}>Confirm Transfer</Button>}
                     </div>
 
                 </div>
             )}
-        </React.Fragment>
+        </div>
     );
 }
 
 export default function TransactionsList({profileIsConsumer, transactions}) {
     const type = profileIsConsumer ? "Consumer" : "Provider";
 
+    const title = profileIsConsumer ? "Consumer Contracts" : "Provider Contracts"
+
     return (
         <div className={styles.transactionListWrapper}>
-            <h3 className={styles.transactionListHeader}>{type}-Transactions</h3>
+            <h3 className={styles.transactionListHeader}>{title}</h3>
             {!transactions || transactions.length == 0 && <p>No Transactions found</p>}
             {transactions && transactions.length > 0 && transactions.map(item => <TransactionItem transaction={item} profileIsConsumer={profileIsConsumer}/>)}
         </div>

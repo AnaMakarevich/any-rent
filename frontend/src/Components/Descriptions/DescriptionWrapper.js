@@ -8,7 +8,7 @@ import {useReturnsTemplate} from '../../styling/texts';
 export default function DescriptionWrapper({item}) {
     const [selectedNav, setSelectedNav] = useState("returns")
     const [shownDescription, setShownDescription] = useState('');
-    const returnsTemplate = useReturnsTemplate(item.required_post_actions, item.checked_at_return);
+    const returnsTemplate = useReturnsTemplate(item.required_post_actions, item.checked_at_return, item.kaution);
 
     const getBottomNavStyle = (navName) => navName === selectedNav ? {borderBottom: "1px solid black"} : {borderBottom: "0px"}
 
@@ -21,7 +21,7 @@ export default function DescriptionWrapper({item}) {
                 <p className={styles.bottomTitle} style={getBottomNavStyle("provider")} onClick={() => setSelectedNav("provider")}>Provider</p>
             </Col> */}
             <Col className="d-flex justify-content-center align-items-center" sm={6}>
-                <p className={styles.bottomTitle} style={getBottomNavStyle("returns")} onClick={() => setSelectedNav("returns")}>Returns</p>
+                <p className={styles.bottomTitle} style={getBottomNavStyle("returns")} onClick={() => setSelectedNav("returns")}>Conditions</p>
             </Col>
             <Col className="w-100">
                 {selectedNav == "information" && (

@@ -51,7 +51,7 @@ export default function ProductRoute() {
         setModalLoading(true);
         APIService.PostRentRequest({uid:userId, item_id:item.id, text:modalMessage, start_date:transformDateForDB(startDate), end_date:transformDateForDB(endDate)})
             .then(data => {
-                if(data.request_id && data.request_id > 0){
+                if(data.response == "OK"){
                    setRentRequestPerformed(true);
                 }
             })
